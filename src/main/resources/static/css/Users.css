@@ -1,0 +1,440 @@
+/* 全局样式 */
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* 导航栏 */
+.navigation-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 0 0 20px 20px;
+    padding: 12px 30px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.navigation-bar:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.navigation-bar-cell {
+    display: flex;
+    align-items: center;
+    margin: 0 15px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.navigation-bar-cell:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.navigation-bar-cell.active {
+    background-color: rgba(0, 123, 255, 0.2);
+    font-weight: bold;
+}
+
+.navigation-bar-cell a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.navigation-bar-cell a:hover {
+    color: #007bff;
+}
+
+.navigation-bar-cell img {
+    width: 18px;
+    height: 18px;
+    margin-right: 6px;
+}
+
+/* 主容器 */
+.all {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-top: 100px;
+    width: 100%;
+    justify-content: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    gap: 30px;
+    padding-bottom: 50px;
+}
+
+/* 左侧用户卡片 */
+.user-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.user-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+/* 卡片头部 */
+.card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 30px;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.profile-pic {
+    border-radius: 50%;
+    background-color: white;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    overflow: hidden;
+    border: 4px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.profile-pic:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.profile-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.user-bio {
+    font-size: 14px;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+/* 卡片内容 */
+.card-content {
+    padding: 25px;
+}
+
+/* 信息区块 */
+.info-section {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.info-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #667eea;
+    display: inline-block;
+}
+
+/* 信息项 */
+.info-item {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #666;
+    width: 100px;
+    font-size: 14px;
+}
+
+.info-value {
+    color: #333;
+    font-size: 14px;
+    flex: 1;
+}
+
+/* 社交链接 */
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.social-item {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.social-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.social-icon {
+    font-size: 18px;
+    margin-right: 12px;
+    width: 24px;
+    text-align: center;
+}
+
+.social-value {
+    font-size: 14px;
+    color: #333;
+}
+
+/* 系统信息 */
+.system-info-section {
+    opacity: 0.7;
+}
+
+.system-info {
+    font-size: 12px;
+    color: #666;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    line-height: 1.4;
+}
+
+/* 卡片底部 */
+.card-footer {
+    padding: 20px 25px;
+    background: #f8f9fa;
+    text-align: center;
+}
+
+.edit-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.edit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* 右侧借阅信息 */
+.right-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 800px;
+}
+
+/* 借阅卡片 */
+.borrow-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.borrow-card:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+/* 应归还卡片特殊样式 */
+.return-card {
+    border-left: 4px solid #ff6b6b;
+}
+
+/* 卡片标题 */
+.card-title {
+    padding: 20px 25px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.card-title h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* 借阅内容 */
+.borrow-content {
+    padding: 20px 25px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* 借阅项 */
+.borrow-item {
+    display: flex;
+    align-items: center;
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+}
+
+.borrow-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.item-icon {
+    font-size: 32px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-right: 15px;
+}
+
+.item-info {
+    flex: 1;
+}
+
+.item-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.item-detail {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.item-action {
+    margin-left: 15px;
+}
+
+.return-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.return-btn:hover {
+    background: #0069d9;
+    transform: translateY(-2px);
+}
+
+/* 滚动条样式 */
+.borrow-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.borrow-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.borrow-content::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.5);
+    border-radius: 10px;
+}
+
+.borrow-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 126, 234, 0.7);
+}
+
+/* 响应式设计 */
+@media (max-width: 992px) {
+    .all {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .user-card {
+        width: 100%;
+        max-width: 500px;
+    }
+    
+    .right-section {
+        width: 100%;
+        max-width: 500px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navigation-bar {
+        padding: 10px 20px;
+    }
+    
+    .navigation-bar-cell {
+        margin: 0 8px;
+        padding: 6px 12px;
+    }
+    
+    .user-card {
+        margin: 0 10px;
+    }
+    
+    .card-header {
+        padding: 20px;
+    }
+    
+    .card-content {
+        padding: 20px;
+    }
+}

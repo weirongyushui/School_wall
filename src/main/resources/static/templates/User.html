@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人页面 - 完整版</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/Users.css">
+    <script src="/static/js/userProfile.js"></script>
+</head>
+<body>
+<!-- 导航栏 -->
+<div class="navigation-bar">
+    <div class="navigation-bar-cell"><a href="/index.html"><img src="/static/app01/images/首页%20(1).png" alt="">&nbsp;首页</a></div>
+    <div class="navigation-bar-cell active"><a href="/static/templates/User.html"><img src="/static/app01/images/我的.png" alt="">&nbsp;用户</a></div>
+    <div class="navigation-bar-cell"><a href=""><img src="/static/app01/images/编辑.png" alt="">&nbsp;设置</a></div>
+    <div class="navigation-bar-cell"><a href="/borrow.html"><img src="/static/app01/images/进入.png" alt="">&nbsp;借阅</a></div>
+    <div class="navigation-bar-cell"><a target="_blank" href="http://47.94.172.187:8080/">AI</a></div>
+</div>
+
+<div class="all">
+    <!-- 左侧个人信息卡片 -->
+    <div class="user-card">
+        <!-- 卡片头部 - 个人基本信息 -->
+        <div class="card-header">
+            <!-- 头像 -->
+            <div class="profile-pic">
+                <img id="avatar" src="/static/app01/images/default_avatar.jpg" alt="头像" class="avatar">
+            </div>
+            
+            <!-- 基础信息 -->
+            <div class="basic-info">
+                <div id="nickname" class="user-name">张三</div>
+                <div id="introduction" class="user-bio">热爱编程，喜欢阅读。</div>
+            </div>
+        </div>
+        
+        <!-- 卡片内容 - 详细信息 -->
+        <div class="card-content">
+            <!-- 个人基本信息 -->
+            <div class="info-section">
+                <h3 class="section-title">基本信息</h3>
+                <div class="info-item">
+                    <span class="info-label">生日：</span>
+                    <span id="birthday" class="info-value">2000-01-01</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">学号：</span>
+                    <span id="user_id" class="info-value">20230001</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">性别：</span>
+                    <span id="gender" class="info-value">男</span>
+                </div>
+            </div>
+            
+            <!-- 社交信息 -->
+            <div class="info-section">
+                <h3 class="section-title">联系方式</h3>
+                <div class="social-links">
+                    <div id="wechat" class="social-item">
+                        <span class="social-icon">💬</span>
+                        <span class="social-value">zhangsan123</span>
+                    </div>
+                    <div id="qq" class="social-item">
+                        <span class="social-icon">🐧</span>
+                        <span class="social-value">123456789</span>
+                    </div>
+                    <div id="email" class="social-item">
+                        <span class="social-icon">📧</span>
+                        <span class="social-value">zhangsan@email.com</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 详细档案 -->
+            <div class="info-section">
+                <h3 class="section-title">详细档案</h3>
+                <div class="info-item">
+                    <span class="info-label">学院/专业：</span>
+                    <span id="major" class="info-value">计算机科学与技术</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">年级：</span>
+                    <span id="grade" class="info-value">大三</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">电话号码：</span>
+                    <span id="phone" class="info-value">138-0000-0000</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">地址：</span>
+                    <span id="address" class="info-value">北京市海淀区XX路XX号</span>
+                </div>
+            </div>
+            
+            <!-- 系统信息 -->
+            <div class="info-section system-info-section">
+                <h3 class="section-title">系统信息</h3>
+                <div id="system-info" class="system-info">
+                    用户ID: 1001 | 注册于: 2023-01-01 | 更新于: 2023-04-11
+                </div>
+            </div>
+        </div>
+        
+        <!-- 卡片底部 - 编辑按钮 -->
+        <div class="card-footer">
+            <button class="edit-btn">编辑个人资料</button>
+        </div>
+    </div>
+
+    <!-- 右侧借阅信息 -->
+    <div class="right-section">
+        <!-- 已借阅 -->
+        <div class="borrow-card">
+            <div class="card-title">
+                <h3>您已借阅</h3>
+            </div>
+            <div class="borrow-content">
+                <!-- 示例物品 -->
+                <div class="borrow-item">
+                    <div class="item-icon">📚</div>
+                    <div class="item-info">
+                        <div class="item-name">算法导论</div>
+                        <div class="item-detail">借阅日期: 2023-10-01</div>
+                        <div class="item-detail">归还日期：2023-11-01</div>
+                    </div>
+                    <div class="item-action">
+                        <button class="return-btn">我要归还</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 应归还 -->
+        <div class="borrow-card return-card">
+            <div class="card-title">
+                <h3>您应归还</h3>
+            </div>
+            <div class="borrow-content">
+                <!-- 示例物品 -->
+                <div class="borrow-item">
+                    <div class="item-icon">💻</div>
+                    <div class="item-info">
+                        <div class="item-name">MacBook Pro</div>
+                        <div class="item-detail">借阅日期: 2023-09-15</div>
+                        <div class="item-detail">归还日期：2023-10-15</div>
+                    </div>
+                    <div class="item-action">
+                        <button class="return-btn">我要归还</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
