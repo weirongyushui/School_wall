@@ -24,6 +24,9 @@
     <select id="getById" parameterType="long" resultMap="BaseResultMap">
         select * from user where id = #{id}
     </select>
+    <select id="getByUserId" parameterType="string" resultMap="BaseResultMap">
+        select * from user where user_id = #{userId}
+    </select>
     <select id="getByuserId" parameterType="int" resultMap="BaseResultMap">
         select * from user where id = #{id}
     </select>

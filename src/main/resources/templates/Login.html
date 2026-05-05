@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 个人管理系统</title>
+    <!-- 引用我们自定义的样式表 -->
+    <link type="text/css" rel="stylesheet" href="/css/Login.css">
+</head>
+<body>
+<!-- 导航栏（保持与原页面一致） -->
+<div class="navigation-bar">
+    <div class="navigation-bar-cell active">
+        <a href="#">🔒 用户登录</a>
+    </div>
+    <div class="navigation-bar-cell">
+        <a href="/login">🏠 返回首页</a>
+    </div>
+</div>
+
+<!-- 主容器 -->
+<div class="login-container">
+    <!-- 登录卡片 -->
+    <div class="login-card">
+        <div class="card-header">
+            <h1>欢迎回来</h1>
+            <p>请输入您的账户信息</p>
+        </div>
+        <div class="card-content">
+            <form class="login-form" id="loginForm">
+                <!-- 用户名输入 -->
+                <div class="form-group">
+                    <label for="username">学号 / 用户名</label>
+                    <input type="text" id="username" name="username" placeholder="请输入学号" required>
+                </div>
+                <!-- 密码输入 -->
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" placeholder="请输入密码" required>
+                </div>
+                <!-- 选项与链接 -->
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" name="remember"> 记住我
+                    </label>
+                    <a href="#" class="forgot-link">忘记密码?</a>
+                </div>
+                <!-- 登录按钮 -->
+                <button type="submit" class="login-btn">立即登录</button>
+            </form>
+        </div>
+        <div class="card-footer">
+            <p>还没有账号？<a href="#" class="register-link">立即注册</a></p>
+        </div>
+    </div>
+</div>
+
+<script src="/js/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.web.mapper.LoginMapper">
+    <resultMap id="BaseResultMap" type="org.example.web.entity.Login">
+        <id column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="user_id" property="userId" />
+        <result column="created_at" property="createdAt" />
+        <result column="updated_at" property="updatedAt" />
+    </resultMap>
+
+    <select id="getById" parameterType="long" resultMap="BaseResultMap">
+        select * from login where id = #{id}
+    </select>
+
+    <select id="getByUsername" parameterType="string" resultMap="BaseResultMap">
+        select * from login where username = #{username}
+    </select>
+
+    <select id="getByUserId" parameterType="long" resultMap="BaseResultMap">
+        select * from login where user_id = #{userId}
+    </select>
+
+    <insert id="insert" parameterType="org.example.web.entity.Login" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO login (
+            username, password, user_id, created_at, updated_at
+        ) VALUES (
+            #{username}, #{password}, #{userId}, #{createdAt}, #{updatedAt}
+        )
+    </insert>
+
+    <update id="update" parameterType="org.example.web.entity.Login">
+        UPDATE login
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            updated_at = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="long">
+        delete from login where id = #{id}
+    </delete>
+
+</mapper>

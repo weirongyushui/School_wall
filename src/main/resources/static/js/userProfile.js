@@ -1,7 +1,7 @@
 // userProfile.js
 
 const DEFAULT_USER_ID = 1;
-const API_BASE = window.location.port === '63342' ? 'http://localhost:8080' : '';
+const API_BASE = window.location.port === '63342' ? 'http://localhost:8081' : '';
 let currentUserId = DEFAULT_USER_ID;
 
 // 页面加载完成后执行

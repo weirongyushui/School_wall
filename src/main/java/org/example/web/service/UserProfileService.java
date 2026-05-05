@@ -16,6 +16,10 @@ public class UserProfileService {
         return userMapper.getById(id);
     }
 
+    public User getByUserId(String userId){
+        return userMapper.getByUserId(userId);
+    }
+
     public User saveUserProfile(User user){
         Date now = new Date();
         user.setUpdatedAt(now);
