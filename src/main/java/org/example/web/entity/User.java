@@ -35,6 +35,15 @@ public class User {
         this.id = id;
     }
 
+    /** 标准 JavaBean 名，供 MyBatis（property=userId、#{userId}）与 Jackson 使用。 */
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public String getUser_id() {
         return userId;
     }

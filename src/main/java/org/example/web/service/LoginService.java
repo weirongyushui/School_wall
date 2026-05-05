@@ -14,11 +14,28 @@ public class LoginService {
     private LoginMapper loginMapper;
 
     public Login login(String username, String password) {
-        Login login = loginMapper.getByUsername(username);
+        if (username == null) {
+            return null;
+        }
+        String account = username.trim();
+        Login login = loginMapper.getByUsername(account);
+        // 与 login.user_id（外键 user.user_id，学号）一致时，允许用学号登录
+        if (login == null && account.matches("\\d+")) {
+            try {
+                login = loginMapper.getByUserId(Long.parseLong(account));
+            } catch (NumberFormatException ignored) {
+                login = null;
+            }
+        }
         if (login == null) {
             return null;
         }
-        if (MD5Util.verify(password, login.getPassword())) {
+        String stored = login.getPassword();
+        if (stored == null) {
+            return null;
+        }
+        // 与 createLogin / changePassword 一致：库中为 MD5；旧数据可能仍为明文
+        if (MD5Util.verify(password, stored) || password.equals(stored)) {
             return login;
         }
         return null;

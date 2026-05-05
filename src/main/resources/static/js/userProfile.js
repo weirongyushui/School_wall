@@ -1,8 +1,13 @@
 // userProfile.js
 
 const DEFAULT_USER_ID = 1;
+// 与 application.properties 中 server.port 一致；若用 IDE 内置预览(63342)跨域调后端，Cookie 不会带上，会话会丢
 const API_BASE = window.location.port === '63342' ? 'http://localhost:8081' : '';
 let currentUserId = DEFAULT_USER_ID;
+
+if (window.location.port === '63342') {
+    console.warn('[userProfile] 当前为 IDE 预览端口，登录 Cookie 无法带到后端，请用浏览器直接打开 http://localhost:8081/user 测试。');
+}
 
 // 页面加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
@@ -13,11 +18,22 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function requestJson(url, options) {
-    return fetch(url, options).then(response => {
+    return fetch(url, {
+        ...options,
+        credentials: 'include'
+    }).then(async response => {
         if (!response.ok) {
             throw new Error('HTTP ' + response.status);
         }
-        return response.json();
+        const text = await response.text();
+        if (!text || !String(text).trim()) {
+            return null;
+        }
+        try {
+            return JSON.parse(text);
+        } catch (e) {
+            throw new Error('响应不是合法 JSON');
+        }
     });
 }
 
@@ -33,16 +49,50 @@ function formatDate(value) {
 }
 
 function loadUserProfile() {
-    requestJson(`${API_BASE}/api/user/${DEFAULT_USER_ID}`)
+    requestJson(`${API_BASE}/api/user/current`)
         .then(data => {
             if (!data) {
+                showError('未获取到用户信息，请重新登录');
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 2000);
                 return;
             }
             renderUserProfile(data);
         })
         .catch(error => {
             console.error('加载用户资料失败:', error);
+            showError('加载用户资料失败：' + error.message);
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 2000);
         });
+}
+
+function showError(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ff4d4f;
+        color: white;
+        padding: 20px 40px;
+        border-radius: 8px;
+        font-size: 16px;
+        z-index: 9999;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        text-align: center;
+    `;
+    errorDiv.textContent = message;
+    document.body.appendChild(errorDiv);
+    
+    setTimeout(() => {
+        if (errorDiv.parentNode) {
+            errorDiv.remove();
+        }
+    }, 3000);
 }
 
 function renderUserProfile(data) {

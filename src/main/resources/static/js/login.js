@@ -46,9 +46,11 @@ function handleLogin(event) {
         body: JSON.stringify({
             username: username,
             password: password
-        })
+        }),
+        credentials: 'include'
     })
     .then(response => {
+        console.log('登录响应状态:', response.status);
         if (response.ok) {
             return response.json();
         } else if (response.status === 401) {
@@ -58,8 +60,16 @@ function handleLogin(event) {
         }
     })
     .then(data => {
+        console.log('登录响应数据:', data);
         // 登录成功，跳转到用户页面
-        window.location.href = '/user';
+        if (data.success) {
+            console.log('登录成功，跳转到 /user');
+            window.location.href = '/user';
+        } else {
+            console.error('登录失败:', data.message);
+            showError(data.message);
+            setLoadingState(false);
+        }
     })
     .catch(error => {
         console.error('登录错误:', error);
@@ -74,14 +84,15 @@ function validateInput(username, password) {
     if (!username || username.length === 0) {
         return {
             valid: false,
-            message: '请输入用户名'
+            message: '请输入用户名或学号'
         };
     }
     
-    if (username.length < 3 || username.length > 20) {
+    // 学号一般为纯数字，用户名可为字母；统一放宽上限以兼容较长学号
+    if (username.length < 3 || username.length > 32) {
         return {
             valid: false,
-            message: '用户名长度必须在 3-20 个字符之间'
+            message: '用户名或学号长度须在 3～32 个字符之间'
         };
     }
     

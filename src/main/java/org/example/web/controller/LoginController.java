@@ -35,7 +35,9 @@ public class LoginController {
         
         Map<String, Object> result = new HashMap<>();
         if (login != null) {
-            session.setAttribute("userId", login.getUserId());
+            // 统一存 Long，避免部分容器/序列化写成 Integer 导致取会话时 ClassCastException
+            Long bindId = login.getUserId();
+            session.setAttribute("userId", bindId);
             session.setAttribute("username", login.getUsername());
             
             result.put("success", true);
