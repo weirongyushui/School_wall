@@ -1,0 +1,449 @@
+/* 全局样式 */
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    color: #333;
+    min-height: 100vh;
+}
+
+/* 导航栏 */
+.navigation-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 0 0 20px 20px;
+    padding: 12px 30px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.navigation-bar-cell {
+    display: flex;
+    align-items: center;
+    margin: 0 15px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.navigation-bar-cell:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.navigation-bar-cell.active {
+    background-color: rgba(0, 123, 255, 0.2);
+    font-weight: bold;
+}
+
+.navigation-bar-cell a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.navigation-bar-cell a:hover {
+    color: #007bff;
+}
+
+/* 主容器 */
+.all {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-top: 100px;
+    width: 100%;
+    justify-content: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    gap: 30px;
+    padding-bottom: 50px;
+}
+
+/* 左侧栏 */
+.left-section {
+    width: 300px;
+    flex-shrink: 0;
+}
+
+/* 用户卡片 */
+.user-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.user-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 25px;
+    text-align: center;
+    color: white;
+}
+
+.avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+.user-info {
+    margin-top: 10px;
+}
+
+.user-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.user-bio {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.info-item {
+    display: flex;
+    margin-bottom: 12px;
+    align-items: center;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #666;
+    width: 90px;
+    font-size: 14px;
+}
+
+.info-value {
+    color: #333;
+    font-size: 14px;
+    flex: 1;
+}
+
+/* 中间区 */
+.center-section {
+    flex: 1;
+    max-width: 700px;
+}
+
+/* 发布框 */
+.publish-box {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.publish-box:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.publish-header {
+    margin-bottom: 15px;
+}
+
+.publish-tip {
+    font-size: 14px;
+    color: #666;
+}
+
+.publish-textarea {
+    width: 100%;
+    min-height: 100px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 14px;
+    resize: vertical;
+    outline: none;
+    font-family: inherit;
+    background: #f8f9fa;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.publish-textarea:focus {
+    border-color: #667eea;
+    background: #fff;
+}
+
+.publish-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.char-count {
+    font-size: 13px;
+    color: #999;
+}
+
+.publish-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.publish-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* 分类标签 */
+.category-tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+.tab-item {
+    font-size: 14px;
+    color: #666;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.tab-item:hover {
+    background: rgba(255, 255, 255, 0.95);
+    color: #007bff;
+}
+
+.tab-item.active {
+    background: rgba(0, 123, 255, 0.2);
+    color: #007bff;
+    font-weight: bold;
+}
+
+/* 动态列表 */
+.feed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.feed-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.feed-card:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-3px);
+}
+
+.feed-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.feed-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.author-avatar-placeholder {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.author-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.author-name {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+.publish-time {
+    font-size: 12px;
+    color: #999;
+}
+
+.feed-body {
+    margin-bottom: 15px;
+}
+
+.feed-text {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.feed-footer {
+    display: flex;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 12px;
+    gap: 20px;
+}
+
+.footer-btn {
+    background: transparent;
+    border: none;
+    color: #666;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.footer-btn:hover {
+    background: rgba(0, 123, 255, 0.1);
+    color: #007bff;
+}
+
+/* 右侧栏 */
+.right-section {
+    width: 250px;
+    flex-shrink: 0;
+}
+
+/* 热搜榜 */
+.hot-box {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.hot-box:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.hot-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 15px 20px;
+    color: white;
+}
+
+.hot-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.hot-list {
+    padding: 10px 0;
+}
+
+.hot-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.hot-item:hover {
+    background: rgba(0, 123, 255, 0.05);
+}
+
+.hot-rank {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.hot-item:nth-child(1) .hot-rank {
+    background: linear-gradient(135deg, #ff6b6b, #ff5252);
+}
+
+.hot-item:nth-child(2) .hot-rank {
+    background: linear-gradient(135deg, #ffa502, #ff7f50);
+}
+
+.hot-item:nth-child(3) .hot-rank {
+    background: linear-gradient(135deg, #ffda79, #ffc048);
+}
+
+.hot-text {
+    font-size: 13px;
+    color: #333;
+}
+
+/* 响应式 */
+@media (max-width: 992px) {
+    .all {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .left-section,
+    .right-section {
+        width: 100%;
+        max-width: 600px;
+    }
+    
+    .center-section {
+        width: 100%;
+        max-width: 600px;
+    }
+}
