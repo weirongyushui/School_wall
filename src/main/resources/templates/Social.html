@@ -11,12 +11,15 @@
 
 <!-- 导航栏 -->
 <div class="navigation-bar">
-    <div class="navigation-bar-cell"><a href="/index.html">首页</a></div>
-    <div class="navigation-bar-cell"><a href="/user">用户</a></div>
-    <div class="navigation-bar-cell active"><a href="/social">动态</a></div>
-    <div class="navigation-bar-cell"><a href="/borrow.html">借阅</a></div>
+    <div class="navigation-bar-cell active"><a href="/social"><img src="/static/app01/images/首页%20(1).png" alt="">&nbsp;发帖</a></div>
+    <div class="navigation-bar-cell"><a href="/user"><img src="/static/app01/images/我的.png" alt="">&nbsp;用户</a></div>
+    <div class="navigation-bar-cell"><a href="/social"><img src="/static/app01/images/编辑.png" alt="">&nbsp;动态</a></div>
+    <div class="navigation-bar-cell"><a href="/borrow.html"><img src="/static/app01/images/进入.png" alt="">&nbsp;借阅</a></div>
+    <div class="navigation-bar-cell"><a target="_blank" href="http://47.94.172.187:8080/">AI</a></div>
     <div class="navigation-bar-cell">
-        <a href="javascript:void(0)" onclick="logout()" style="color: #ff4d4f;">退出登录</a>
+        <a href="javascript:void(0)" onclick="logout()" style="color: #ff4d4f;">
+            <img src="/static/app01/images/退出.png" alt="" style="opacity: 0.7;">&nbsp;退出登录
+        </a>
     </div>
 </div>
 
@@ -28,10 +31,10 @@
         <!-- 用户信息卡片 -->
         <div class="user-card">
             <div class="card-header">
-                <div class="avatar-placeholder">头像</div>
+                <div class="avatar-placeholder" id="avatarPlaceholder">头</div>
                 <div class="user-info">
                     <div id="nickname" class="user-name">加载中...</div>
-                    <div class="user-bio">这个人很懒，什么都没写</div>
+                    <div id="introduction" class="user-bio">这个人很懒，什么都没写</div>
                 </div>
             </div>
             <div class="card-content">
@@ -50,6 +53,22 @@
                 <div class="info-item">
                     <span class="info-label">年级：</span>
                     <span id="grade" class="info-value">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">微信：</span>
+                    <span id="wechat" class="info-value">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">QQ：</span>
+                    <span id="qq" class="info-value">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">邮箱：</span>
+                    <span id="email" class="info-value">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">电话：</span>
+                    <span id="phone" class="info-value">-</span>
                 </div>
             </div>
         </div>
