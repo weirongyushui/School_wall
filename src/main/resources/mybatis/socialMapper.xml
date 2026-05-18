@@ -13,6 +13,7 @@
         <result column="username" property="username" />
         <result column="avatar" property="avatar" />
         <result column="is_anonymous" property="isAnonymous" />
+        <result column="category" property="category" />
         <result column="status" property="status" />
         <result column="like_count" property="likeCount" />
         <result column="comment_count" property="commentCount" />
@@ -22,8 +23,8 @@
 
     <!-- 基础列 -->
     <sql id="Base_Column_List">
-        id, content, images, user_id, username, avatar, is_anonymous, 
-        status, like_count, comment_count, created_at, updated_at
+        id, content, images, user_id, username, avatar, is_anonymous,
+        category, status, like_count, comment_count, created_at, updated_at
     </sql>
 
     <!-- 根据 ID 查询帖子 -->
@@ -47,6 +48,9 @@
         <if test="isAnonymous != null">
             AND is_anonymous = #{isAnonymous}
         </if>
+        <if test="category != null">
+            AND category = #{category}
+        </if>
         ORDER BY created_at DESC
         LIMIT #{offset}, #{limit}
     </select>
@@ -61,6 +65,9 @@
         </if>
         <if test="isAnonymous != null">
             AND is_anonymous = #{isAnonymous}
+        </if>
+        <if test="category != null">
+            AND category = #{category}
         </if>
     </select>
 
@@ -77,11 +84,11 @@
     <!-- 插入帖子（待审核状态） -->
     <insert id="insert" parameterType="org.example.web.entity.Post" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO post (
-            content, images, user_id, username, avatar, is_anonymous,
+            content, images, user_id, username, avatar, is_anonymous, category,
             status, like_count, comment_count, created_at, updated_at
         ) VALUES (
-            #{content}, #{images}, #{userId}, #{username}, #{avatar}, #{isAnonymous},
-            2, 0, 0, NOW(), NOW()
+            #{content}, #{images}, #{userId}, #{username}, #{avatar}, #{isAnonymous}, #{category},
+            1, 0, 0, NOW(), NOW()
         )
     </insert>
 
@@ -93,6 +100,7 @@
             <if test="images != null">images = #{images},</if>
             <if test="avatar != null">avatar = #{avatar},</if>
             <if test="isAnonymous != null">is_anonymous = #{isAnonymous},</if>
+            <if test="category != null">category = #{category},</if>
             <if test="status != null">status = #{status},</if>
             <if test="likeCount != null">like_count = #{likeCount},</if>
             <if test="commentCount != null">comment_count = #{commentCount},</if>

@@ -81,102 +81,53 @@
             <div class="publish-header">
                 <span class="publish-tip">分享你的想法...</span>
             </div>
+            <!-- 分类选择 + 匿名勾选 -->
+            <div class="publish-options">
+                <select id="publishCategory" class="publish-select">
+                    <option value="1">发发牢骚</option>
+                    <option value="2">吹吹牛皮</option>
+                    <option value="3">校园互助</option>
+                    <option value="4">联名请愿</option>
+                </select>
+                <label class="anonymous-label">
+                    <input type="checkbox" id="publishAnonymous"> 匿名发布
+                </label>
+            </div>
             <textarea class="publish-textarea" id="publishContent" placeholder="有什么想和大家分享的？"></textarea>
             <div class="publish-footer">
                 <span class="char-count" id="charCount">0 / 200</span>
-                <button class="publish-btn" onclick="publish()">发布</button>
+                <button class="publish-btn" id="publishBtn" onclick="publish()">发布</button>
             </div>
         </div>
 
         <!-- 分类标签 -->
         <div class="category-tabs">
-            <span class="tab-item active">全部</span>
-            <span class="tab-item">发发牢骚</span>
-            <span class="tab-item">吹吹牛皮</span>
-            <span class="tab-item">校园互助</span>
-            <span class="tab-item">联名请愿</span>
+            <span class="tab-item active" data-category="0">全部</span>
+            <span class="tab-item" data-category="1">发发牢骚</span>
+            <span class="tab-item" data-category="2">吹吹牛皮</span>
+            <span class="tab-item" data-category="3">校园互助</span>
+            <span class="tab-item" data-category="4">联名请愿</span>
+            <span class="refresh-btn" onclick="refreshFeed()">🔄 刷新</span>
         </div>
 
         <!-- 动态列表 -->
-        <div class="feed-list">
-            <!-- 动态卡片 1 -->
-            <div class="feed-card">
-                <div class="feed-header">
-                    <div class="feed-author">
-                        <div class="author-avatar-placeholder">头</div>
-                        <div class="author-info">
-                            <span class="author-name">用户名</span>
-                            <span class="publish-time">发布时间</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="feed-body">
-                    <div class="feed-text">动态内容...</div>
-                </div>
-                <div class="feed-footer">
-                    <button class="footer-btn">转发</button>
-                    <button class="footer-btn">评论</button>
-                    <button class="footer-btn">点赞</button>
-                </div>
-            </div>
-
-            <!-- 动态卡片 2 -->
-            <div class="feed-card">
-                <div class="feed-header">
-                    <div class="feed-author">
-                        <div class="author-avatar-placeholder">头</div>
-                        <div class="author-info">
-                            <span class="author-name">用户名</span>
-                            <span class="publish-time">发布时间</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="feed-body">
-                    <div class="feed-text">动态内容...</div>
-                </div>
-                <div class="feed-footer">
-                    <button class="footer-btn">转发</button>
-                    <button class="footer-btn">评论</button>
-                    <button class="footer-btn">点赞</button>
-                </div>
-            </div>
-
-            <!-- 动态卡片 3 -->
-            <div class="feed-card">
-                <div class="feed-header">
-                    <div class="feed-author">
-                        <div class="author-avatar-placeholder">头</div>
-                        <div class="author-info">
-                            <span class="author-name">用户名</span>
-                            <span class="publish-time">发布时间</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="feed-body">
-                    <div class="feed-text">动态内容...</div>
-                </div>
-                <div class="feed-footer">
-                    <button class="footer-btn">转发</button>
-                    <button class="footer-btn">评论</button>
-                    <button class="footer-btn">点赞</button>
-                </div>
-            </div>
+        <div class="feed-list" id="feedContainer">
+        </div>
+        
+        <!-- 加载更多 -->
+        <div class="load-more" id="loadMore" style="display:none;">
+            <button class="load-more-btn" onclick="loadMore()">加载更多</button>
         </div>
     </div>
 
     <!-- 右侧栏 -->
     <div class="right-section">
-        <!-- 热搜榜 -->
+        <!-- 点赞榜 -->
         <div class="hot-box">
             <div class="hot-header">
                 <h3>点赞榜</h3>
             </div>
-            <div class="hot-list">
-                <div class="hot-item"><span class="hot-rank">1</span><span class="hot-text">热搜内容 1</span></div>
-                <div class="hot-item"><span class="hot-rank">2</span><span class="hot-text">热搜内容 2</span></div>
-                <div class="hot-item"><span class="hot-rank">3</span><span class="hot-text">热搜内容 3</span></div>
-                <div class="hot-item"><span class="hot-rank">4</span><span class="hot-text">热搜内容 4</span></div>
-                <div class="hot-item"><span class="hot-rank">5</span><span class="hot-text">热搜内容 5</span></div>
+            <div class="hot-list" id="hotList">
             </div>
         </div>
     </div>
@@ -192,15 +143,6 @@
         }).then(function(res) {
             if (res.ok) window.location.href = '/login';
         });
-    }
-
-    function publish() {
-        var content = document.getElementById('publishContent').value;
-        if (!content) {
-            alert('请输入内容');
-            return;
-        }
-        alert('发布功能待实现');
     }
 </script>
 </body>

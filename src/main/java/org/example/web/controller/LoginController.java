@@ -24,6 +24,11 @@ public class LoginController {
         return "Login";
     }
 
+    @GetMapping("/register")
+    public String registerPage() {
+        return "Register";
+    }
+
     @PostMapping("/api/login")
     @ResponseBody
     public Map<String, Object> login(@RequestBody Map<String, String> request,
@@ -35,7 +40,6 @@ public class LoginController {
         
         Map<String, Object> result = new HashMap<>();
         if (login != null) {
-            // 统一存 Long，避免部分容器/序列化写成 Integer 导致取会话时 ClassCastException
             Long bindId = login.getUserId();
             session.setAttribute("userId", bindId);
             session.setAttribute("username", login.getUsername());
@@ -45,6 +49,28 @@ public class LoginController {
         } else {
             result.put("success", false);
             result.put("message", "用户名或密码错误");
+        }
+        return result;
+    }
+
+    @PostMapping("/api/register")
+    @ResponseBody
+    public Map<String, Object> register(@RequestBody Map<String, String> request) {
+        String studentId = request.get("studentId");
+        String username = request.get("username");
+        String password = request.get("password");
+        String nickname = request.get("nickname");
+        String email = request.get("email");
+
+        String error = loginService.register(studentId, username, password, nickname, email);
+
+        Map<String, Object> result = new HashMap<>();
+        if (error == null) {
+            result.put("success", true);
+            result.put("message", "注册成功");
+        } else {
+            result.put("success", false);
+            result.put("message", error);
         }
         return result;
     }

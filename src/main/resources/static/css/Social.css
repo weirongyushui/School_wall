@@ -427,6 +427,117 @@ body {
 .hot-text {
     font-size: 13px;
     color: #333;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hot-like-count {
+    font-size: 11px;
+    color: #999;
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+/* 点赞榜排名色 */
+.rank-1 { background: linear-gradient(135deg, #ff6b6b, #ff5252) !important; }
+.rank-2 { background: linear-gradient(135deg, #ffa502, #ff7f50) !important; }
+.rank-3 { background: linear-gradient(135deg, #ffda79, #ffc048) !important; }
+
+/* 发布选项行 */
+.publish-options {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 12px;
+}
+
+.publish-select {
+    padding: 8px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #333;
+    background: #f8f9fa;
+    outline: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+.publish-select:focus {
+    border-color: #667eea;
+}
+
+.anonymous-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    color: #666;
+    cursor: pointer;
+    user-select: none;
+}
+
+.anonymous-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #667eea;
+}
+
+/* 加载更多 */
+.load-more {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.load-more-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #e0e0e0;
+    color: #666;
+    padding: 10px 40px;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.load-more-btn:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    border-color: #667eea;
+}
+
+/* 空状态 */
+.empty-feed {
+    text-align: center;
+    color: #999;
+    padding: 40px 20px;
+    font-size: 14px;
+}
+
+/* 帖子图片 */
+.feed-image-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.feed-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.feed-image:hover {
+    transform: scale(1.05);
 }
 
 /* 响应式 */
@@ -446,4 +557,20 @@ body {
         width: 100%;
         max-width: 600px;
     }
+}
+
+/* 刷新按钮 */
+.refresh-btn {
+    font-size: 14px;
+    color: #667eea;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    margin-left: auto;
+    transition: all 0.3s ease;
+}
+
+.refresh-btn:hover {
+    background: rgba(102, 126, 234, 0.15);
 }
