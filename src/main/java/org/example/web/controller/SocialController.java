@@ -4,7 +4,9 @@ import org.example.web.entity.Post;
 import org.example.web.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -120,4 +122,51 @@ public class SocialController {
         response.put("total", total);
         return response;
     }
+
+    /**
+     * TODO: 点赞功能 - 前端已调用 /api/post/{id}/like
+     */
+    // @PostMapping("/api/post/{id}/like")
+    // @ResponseBody
+    // public Map<String, Object> likePost(@PathVariable Long id, HttpSession session) {
+    //     // 待实现：验证登录、更新点赞数、返回结果
+    // }
+
+    /**
+     * TODO: 获取热门帖子 - 前端已调用 /api/post/hot
+     */
+    // @GetMapping("/api/post/hot")
+    // @ResponseBody
+    // public Map<String, Object> getHotPosts() {
+    //     // 待实现：按点赞数排序返回热门帖子
+    // }
+
+    /**
+     * 删除帖子
+     */
+    @DeleteMapping("/api/post/{id}")
+    @ResponseBody
+    public Map<String, Object> deletePost(@PathVariable Long id, HttpSession session) {
+        Long userId = sessionUserRef(session);
+        String error = postService.deletePost(userId, id);
+
+        Map<String, Object> result = new HashMap<>();
+        if (error == null) {
+            result.put("success", true);
+            result.put("message", "删除成功");
+        } else {
+            result.put("success", false);
+            result.put("message", error);
+        }
+        return result;
+    }
+
+    /**
+     * TODO: 更新帖子
+     */
+    // @PutMapping("/api/post/{id}")
+    // @ResponseBody
+    // public Map<String, Object> updatePost(@PathVariable Long id, @RequestBody Map<String, String> request, HttpSession session) {
+    //     // 待实现：验证权限、更新帖子内容
+    // }
 }

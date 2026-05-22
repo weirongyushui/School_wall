@@ -95,4 +95,27 @@ public class PostServiceImpl implements PostService {
         result.put("total", total);
         return result;
     }
+
+    @Override
+    public String deletePost(Long userId, Long postId) {
+        if (userId == null) {
+            return "请先登录";
+        }
+        if (postId == null) {
+            return "帖子 ID 不能为空";
+        }
+
+        Post post = socialMapper.getById(postId);
+        if (post == null) {
+            return "帖子不存在";
+        }
+
+        if (!userId.equals(post.getUserId())) {
+            return "无权限删除此帖子";
+        }
+
+        socialMapper.deleteById(postId);
+        return null;
+    }
+    
 }

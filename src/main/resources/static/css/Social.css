@@ -269,6 +269,7 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     padding: 20px;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .feed-card:hover {
@@ -335,6 +336,23 @@ body {
     gap: 20px;
 }
 
+.delete-btn {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    color: #ff0000;
+    font-size: 12px;
+    padding: 4px 10px;
+    background: rgba(255, 0, 0, 0.08);
+    border: 1px solid #ff0000;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: rgba(255, 0, 0, 0.2);
+}
+
 .footer-btn {
     background: transparent;
     border: none;
@@ -352,7 +370,6 @@ body {
 }
 
 /* 右侧栏 */
-.right-section {
     width: 250px;
     flex-shrink: 0;
 }

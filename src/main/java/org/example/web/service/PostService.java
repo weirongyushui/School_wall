@@ -25,4 +25,36 @@ public interface PostService {
      * @return "list" → List<Post>, "total" → int
      */
     Map<String, Object> getPostList(int page, int size, Integer category);
+
+    /**
+     * TODO: 点赞帖子
+     * @param userId 用户 ID
+     * @param postId 帖子 ID
+     * @return 错误消息，null 表示成功
+     */
+    // String likePost(Long userId, Long postId);
+
+    /**
+     * TODO: 获取热门帖子（按点赞数排序）
+     * @param limit 返回数量
+     * @return 热门帖子列表
+     */
+    // List<Post> getHotPosts(int limit);
+
+    /**
+     * 删除帖子（软删除）
+     * @param userId 用户 ID（验证权限）
+     * @param postId 帖子 ID
+     * @return 错误消息，null 表示成功
+     */
+    String deletePost(Long userId, Long postId);
+
+    /**
+     * TODO: 更新帖子
+     * @param userId 用户 ID（验证权限）
+     * @param postId 帖子 ID
+     * @param content 新内容
+     * @return 错误消息，null 表示成功
+     */
+    // String updatePost(Long userId, Long postId, String content);
 }

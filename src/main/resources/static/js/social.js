@@ -4,6 +4,7 @@ var currentCategory = 0;
 var pageSize = 30;
 var hasMore = true;
 var loading = false;
+var currentUserId = null;
 
 // ========== 初始化 ==========
 document.addEventListener('DOMContentLoaded', function() {
@@ -23,6 +24,7 @@ function loadUserProfile() {
         })
         .then(function(data) {
             if (data && data.id) {
+                currentUserId = data.user_id || data.userId || null;
                 document.getElementById('nickname').textContent = data.nickname || '用户';
                 document.getElementById('introduction').textContent = data.introduction || '这个人很懒，什么都没写';
                 document.getElementById('user_id').textContent = data.user_id || data.userId || '-';
@@ -226,6 +228,12 @@ function buildPostCard(post) {
     // 时间格式化
     var timeStr = post.createdAt ? formatTime(post.createdAt) : '';
 
+    // 判断是否自己的帖子
+    var isAuthor = currentUserId && post.userId && String(currentUserId) === String(post.userId);
+    var deleteButtonHtml = isAuthor ?
+        '<button class="footer-btn delete-btn" onclick="deletePost(' + post.id + ', this)">删除</button>' :
+        '';
+
     card.innerHTML = 
         '<div class="feed-header">' +
             '<div class="feed-author">' +
@@ -244,6 +252,7 @@ function buildPostCard(post) {
             '<button class="footer-btn" onclick="sharePost(' + post.id + ')">转发 ' + (post.shareCount || 0) + '</button>' +
             '<button class="footer-btn" onclick="commentPost(' + post.id + ')">评论 ' + (post.commentCount || 0) + '</button>' +
             '<button class="footer-btn" onclick="likePost(' + post.id + ', this)">点赞 ' + (post.likeCount || 0) + '</button>' +
+            deleteButtonHtml +
         '</div>';
 
     return card;
@@ -294,6 +303,40 @@ function commentPost(postId) {
 
 function viewImage(url) {
     window.open(url, '_blank');
+}
+
+// ========== 删除帖子 ==========
+function deletePost(postId, btn) {
+    if (!confirm('确定要删除这条帖子吗？删除后无法恢复。')) {
+        return;
+    }
+    var originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '删除中...';
+    fetch('/api/post/' + postId, {
+        method: 'DELETE',
+        credentials: 'include'
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+        if (data.success) {
+            var card = btn.closest('.feed-card');
+            if (card) {
+                card.style.opacity = '0';
+                card.style.transition = 'opacity 0.3s ease';
+                setTimeout(function() { card.remove(); }, 300);
+            }
+        } else {
+            alert(data.message || '删除失败');
+            btn.disabled = false;
+            btn.textContent = originalText;
+        }
+    })
+    .catch(function(err) {
+        alert('删除失败，请稍后重试');
+        btn.disabled = false;
+        btn.textContent = originalText;
+    });
 }
 
 // ========== 点赞榜 ==========
