@@ -8,6 +8,7 @@
         <result column="username" property="username" />
         <result column="password" property="password" />
         <result column="user_id" property="userId" />
+        <result column="role" property="role" />
         <result column="created_at" property="createdAt" />
         <result column="updated_at" property="updatedAt" />
     </resultMap>

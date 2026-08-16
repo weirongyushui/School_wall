@@ -11,6 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
+/**
+ * 登录服务
+ * 负责用户登录、注册、账号增删改、密码修改等业务逻辑。
+ * 依赖 LoginMapper（账号表）与 UserMapper（用户资料表）。
+ * 密码加密使用 MD5Util；register 方法使用 @Transactional 保证 user 与 login 两表同时写入。
+ */
 @Service
 public class LoginService {
     @Autowired
@@ -19,6 +25,14 @@ public class LoginService {
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * 用户登录
+     * 先按用户名查；若为纯数字（学号）再按 user_id 查，兼容学号登录。
+     * 密码校验：优先 MD5，其次兼容明文（旧数据）。
+     * @param username 用户名或学号字符串
+     * @param password 明文密码
+     * @return Login 实体（成功）或 null（失败）
+     */
     public Login login(String username, String password) {
         if (username == null) {
             return null;
@@ -41,25 +55,42 @@ public class LoginService {
             return null;
         }
         // 与 createLogin / changePassword 一致：库中为 MD5；旧数据可能仍为明文
-        if (MD5Util.verify(password, stored) || password.equals(stored)) {
+        if (MD5Util.verify(password, stored)) {
             return login;
         }
         return null;
     }
 
+    /**
+     * 按用户名查询账号
+     * @param username 用户名
+     * @return Login 实体或 null
+     */
     public Login getLoginByUsername(String username) {
         return loginMapper.getByUsername(username);
     }
 
+    /**
+     * 按学号查询账号
+     * @param userId 学号 Long
+     * @return Login 实体或 null
+     */
     public Login getLoginByUserId(Long userId) {
         return loginMapper.getByUserId(userId);
     }
 
+    /**
+     * 创建账号（明文密码会被 MD5 加密）
+     * @param login 含 username/password/userId 的 Login 实体
+     * @return 已插入的 Login 实体；用户名已存在时返回 null
+     */
     public Login createLogin(Login login) {
+        // 检查用户名是否已存在
         Login existed = loginMapper.getByUsername(login.getUsername());
         if (existed != null) {
             return null;
         }
+        // 密码 MD5 加密后再写入
         login.setPassword(MD5Util.md5(login.getPassword()));
         Date now = new Date();
         login.setCreatedAt(now);
@@ -68,6 +99,11 @@ public class LoginService {
         return login;
     }
 
+    /**
+     * 更新账号信息（自动更新 updatedAt）
+     * @param login 待更新的 Login 实体
+     * @return 更新后的 Login 实体
+     */
     public Login updateLogin(Login login) {
         Date now = new Date();
         login.setUpdatedAt(now);
@@ -75,10 +111,24 @@ public class LoginService {
         return loginMapper.getById(login.getId());
     }
 
+    /**
+     * 按 ID 物理删除账号
+     * @param id login.id
+     * @return 影响行数
+     */
     public int deleteLogin(Long id) {
         return loginMapper.deleteById(id);
     }
 
+    /**
+     * 修改密码
+     * 先校验旧密码（MD5），再写入新密码（MD5）。
+     * 注意：当前无 Controller 调用此方法。
+     * @param userId       学号
+     * @param oldPassword 旧明文密码
+     * @param newPassword 新明文密码
+     * @return true=修改成功；false=账号不存在或旧密码错误
+     */
     public boolean changePassword(Long userId, String oldPassword, String newPassword) {
         Login login = loginMapper.getByUserId(userId);
         if (login == null) {

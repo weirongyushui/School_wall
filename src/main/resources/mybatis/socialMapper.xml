@@ -147,7 +147,7 @@
     <select id="getPendingCount" resultType="int">
         SELECT COUNT(*)
         FROM post
-        WHERE status = 2
+        WHERE status = 3
     </select>
 
     <!-- 更新点赞数 -->

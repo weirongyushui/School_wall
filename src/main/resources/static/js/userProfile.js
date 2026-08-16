@@ -1,9 +1,9 @@
 // userProfile.js
 
-const DEFAULT_USER_ID = 1;
+
 // 与 application.properties 中 server.port 一致；若用 IDE 内置预览(63342)跨域调后端，Cookie 不会带上，会话会丢
 const API_BASE = window.location.port === '63342' ? 'http://localhost:8081' : '';
-let currentUserId = DEFAULT_USER_ID;
+let currentUserId = null;
 
 if (window.location.port === '63342') {
     console.warn('[userProfile] 当前为 IDE 预览端口，登录 Cookie 无法带到后端，请用浏览器直接打开 http://localhost:8081/user 测试。');
@@ -97,7 +97,7 @@ function showError(message) {
 
 function renderUserProfile(data) {
     const userNo = data.user_id || data.userId || '';
-    currentUserId = data.id || DEFAULT_USER_ID;
+    currentUserId = data.id || null;
 
     document.getElementById('nickname').textContent = data.nickname || '';
     document.getElementById('introduction').textContent = data.introduction || '';

@@ -8,18 +8,31 @@ import java.util.Date;
  */
 public class Post {
 
+    /** 主键 id */
     private Long id;
+    /** 帖子正文 */
     private String content;
+    /** 图片 URL（逗号分隔多图，当前无写入逻辑） */
     private String images;
+    /** 发布者学号（对应 user.user_id） */
     private Long userId;
+    /** 发布者用户名（冗余字段，发帖时写入） */
     private String username;
+    /** 发布者头像（冗余字段，发帖时写入） */
     private String avatar;
+    /** 是否匿名：0=实名，1=匿名 */
     private Integer isAnonymous;
+    /** 分类：0=全部，1=发发牢骚，2=吹吹牛皮，3=校园互助，4=联名请愿 */
     private Integer category;
+    /** 状态：0=已删除，1=正常，2=已屏蔽/待审核 */
     private Integer status;
+    /** 点赞数（无点赞业务调用，恒为 0） */
     private Integer likeCount;
+    /** 评论数（无评论业务调用，恒为 0） */
     private Integer commentCount;
+    /** 创建时间 */
     private Date createdAt;
+    /** 更新时间 */
     private Date updatedAt;
 
     public Long getId() {

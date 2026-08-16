@@ -4,27 +4,50 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
+/**
+ * 用户资料实体
+ * 对应数据库 user 表，使用 JPA 注解（@Entity/@Table）。
+ * 同时供 MyBatis 使用（userMapper.xml 中 ResultMap 直接映射字段名）。
+ * 特别说明：getUserId/setUserId 与 getUser_id/setUser_id 同时存在，
+ *           是为兼容 MyBatis property 与 Jackson 序列化字段名。
+ */
 @Entity
 @Table(name = "user")
 public class User {
+    /** 主键 id（自增） */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    /** 学号（唯一索引，业务上的用户标识） */
     private String userId;
+    /** 昵称 */
     private String nickname;
+    /** 头像 URL */
     private String avatar;
+    /** 性别：1=男，0=女，-1=未设置（注册时默认 -1） */
     private Integer gender;
+    /** 专业 */
     private String major;
+    /** 年级 */
     private String grade;
+    /** 个人简介 */
     private String introduction;
+    /** 电话 */
     private String phone;
+    /** 邮箱 */
     private String email;
+    /** QQ */
     private String qq;
+    /** 微信 */
     private String wechat;
+    /** 地址 */
     private String address;
+    /** 生日 */
     private java.util.Date birthday;
+    /** 创建时间 */
     private java.util.Date createdAt;
+    /** 更新时间 */
     private java.util.Date updatedAt;
 
     public long getId() {
