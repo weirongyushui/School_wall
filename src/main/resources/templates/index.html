@@ -1,11 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#53aff2">
+    <meta name="description" content="校园墙——分享青春，遇见同好。">
+    <title>校园墙 · 分享青春</title>
+    <link rel="stylesheet" href="/css/index.css?v=20260922-parallax-fix">
+    <link rel="stylesheet" href="/css/global-background.css?v=20260922-campus-wall">
+    <link rel="stylesheet" href="/css/campus-theme.css?v=20260922-blue-pink">
 </head>
 <body>
-<!-- TODO(P3): 设计校园墙首页，提供登录、注册、动态广场等入口。 -->
-第一个springboot项目
+<main class="hero" id="campusHero">
+    <div class="hero__background" aria-hidden="true"></div>
+    <div class="hero__veil" aria-hidden="true"></div>
+
+    <header class="site-header">
+        <a class="brand" href="/" aria-label="校园墙首页">
+            <span class="brand__mark" aria-hidden="true">校</span>
+            <span>校园墙</span>
+        </a>
+        <nav class="site-nav" aria-label="主导航">
+            <a href="/social">动态广场</a>
+            <a href="/login">登录</a>
+            <a class="site-nav__primary" href="/register">加入校园墙</a>
+        </nav>
+    </header>
+
+    <section class="hero__content" aria-labelledby="hero-title">
+        <p class="eyebrow"><span></span> CAMPUS MOMENTS</p>
+        <h1 id="hero-title">让每一次相遇<br><em>都闪闪发光</em></h1>
+        <p class="hero__lead">记录校园日常，分享青春故事。<br>在这里，找到与你同频的人。</p>
+        <div class="hero__actions">
+            <a class="button button--primary" href="/social">
+                逛逛校园广场
+                <span aria-hidden="true">→</span>
+            </a>
+            <a class="button button--glass" href="/register">创建我的账号</a>
+        </div>
+        <div class="hero__note" aria-label="社区特点">
+            <span>✦ 校园新鲜事</span>
+            <span>✦ 同好轻松聊</span>
+            <span>✦ 青春共同记录</span>
+        </div>
+    </section>
+
+    <div class="character-layer" aria-hidden="true">
+        <div class="character-glow"></div>
+        <img src="/images/home/campus-guide-character.png" alt="" draggable="false">
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+        <span>移动鼠标，和她打个招呼</span>
+        <i></i>
+    </div>
+</main>
+
+<script src="/js/index.js?v=20260922-parallax-fix"></script>
 </body>
 </html>

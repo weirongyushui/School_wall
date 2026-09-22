@@ -1,12 +1,80 @@
 /* 全局样式 */
 body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    background-attachment: fixed;
+    background: #9ed8fa;
     margin: 0;
     padding: 0;
     font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
     color: #333;
     min-height: 100vh;
+    isolation: isolate;
+}
+
+/* 校园场景视差背景 */
+:root {
+    --social-bg-x: 0px;
+    --social-bg-y: 0px;
+    --social-character-x: 0px;
+    --social-character-y: 0px;
+}
+
+.social-parallax {
+    position: fixed;
+    z-index: 0;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.social-parallax__campus,
+.social-parallax__wash,
+.social-parallax__character {
+    position: absolute;
+}
+
+.social-parallax__campus {
+    inset: -25px;
+    background-image: url("/images/home/campus-wall-full-bg.png");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: translate3d(var(--social-bg-x), var(--social-bg-y), 0) scale(1.04);
+    will-change: transform;
+}
+
+.social-parallax__wash {
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(230, 247, 255, .06), rgba(239, 246, 255, .16)),
+        rgba(77, 139, 204, .03);
+    backdrop-filter: saturate(.98);
+}
+
+.social-parallax__character {
+    right: -7vw;
+    bottom: -22vh;
+    width: min(42vw, 650px);
+    height: min(92vh, 900px);
+    transform: translate3d(var(--social-character-x), var(--social-character-y), 0);
+    will-change: transform;
+}
+
+.social-parallax__character img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
+    opacity: 1;
+    filter: drop-shadow(-12px 16px 24px rgba(19, 70, 112, .2));
+    user-select: none;
+}
+
+.navigation-bar,
+.all {
+    position: relative;
+    z-index: 1;
 }
 
 /* 导航栏 */
@@ -374,7 +442,249 @@ body {
     font-weight: 600;
 }
 
+/* 评论区 */
+.comment-panel {
+    margin-top: 14px;
+    padding: 18px 20px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(102, 126, 234, 0.12);
+    color: #444444;
+    background: rgba(248, 249, 255, 0.92);
+}
+
+.comment-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-bottom: 18px;
+}
+
+.comment-panel-header strong {
+    color: #333333;
+    font-size: 18px;
+}
+
+.comment-panel-count {
+    margin-left: 3px;
+    color: #999999;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.comment-sort-tabs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #d7d7d7;
+}
+
+.comment-sort-tabs button {
+    padding: 0;
+    border: 0;
+    color: #999999;
+    background: transparent;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.comment-sort-tabs button.active {
+    color: #667eea;
+    font-weight: 600;
+}
+
+.comment-compose,
+.reply-compose {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.comment-current-avatar {
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(102, 126, 234, 0.18);
+    border-radius: 50%;
+    color: #ffffff;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.comment-compose-main {
+    min-width: 0;
+    flex: 1;
+}
+
+.comment-input,
+.reply-compose textarea {
+    width: 100%;
+    min-height: 50px;
+    box-sizing: border-box;
+    resize: vertical;
+    border: 1px solid #e5e7ef;
+    border-radius: 10px;
+    padding: 14px 12px;
+    color: #333333;
+    background: rgba(255, 255, 255, 0.96);
+    font: inherit;
+    outline: none;
+}
+
+.comment-input::placeholder,
+.reply-compose textarea::placeholder {
+    color: #aaaaaa;
+}
+
+.comment-input:focus,
+.reply-compose textarea:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.comment-compose-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    margin-top: 9px;
+    color: #777777;
+    font-size: 13px;
+}
+
+.comment-submit,
+.reply-compose button {
+    border: 0;
+    border-radius: 18px;
+    padding: 7px 18px;
+    color: white;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.comment-submit:hover,
+.reply-compose button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.comment-submit:disabled,
+.reply-compose button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.comment-item {
+    display: flex;
+    gap: 10px;
+    padding: 12px 0;
+    border-top: 1px solid #eeeeee;
+}
+
+.comment-avatar {
+    width: 32px;
+    height: 32px;
+    flex: 0 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-size: 13px;
+}
+
+.comment-main {
+    min-width: 0;
+    flex: 1;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comment-author {
+    color: #333333;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.comment-time {
+    color: #999999;
+    font-size: 12px;
+}
+
+.comment-content {
+    margin-top: 5px;
+    color: #444444;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.comment-actions {
+    margin-top: 5px;
+}
+
+.comment-actions button,
+.load-replies-btn {
+    padding: 0;
+    margin-right: 12px;
+    border: 0;
+    color: #667eea;
+    background: transparent;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.comment-actions .comment-delete {
+    color: #ff4d4f;
+}
+
+.comment-replies {
+    margin-top: 6px;
+    padding-left: 8px;
+    border-left: 2px solid rgba(102, 126, 234, 0.16);
+}
+
+.comment-reply {
+    padding: 9px 0;
+}
+
+.comment-reply .comment-avatar {
+    width: 26px;
+    height: 26px;
+    flex-basis: 26px;
+    font-size: 11px;
+}
+
+.reply-compose {
+    margin-top: 10px;
+    align-items: center;
+    color: #777777;
+    font-size: 12px;
+}
+
+.reply-compose textarea {
+    min-height: 54px;
+}
+
+.comment-empty {
+    padding: 20px 0 4px;
+    text-align: center;
+    color: #999999;
+    font-size: 13px;
+}
+
 /* 右侧栏 */
+.right-section {
     width: 250px;
     flex-shrink: 0;
 }
@@ -595,4 +905,50 @@ body {
 
 .refresh-btn:hover {
     background: rgba(102, 126, 234, 0.15);
+}
+
+/* 让动态内容浮在场景上，同时维持足够的文字对比度 */
+.user-card,
+.publish-box,
+.feed-card,
+.hot-box {
+    border: 1px solid rgba(255, 255, 255, .68);
+    background: rgba(255, 255, 255, .88);
+    box-shadow: 0 12px 34px rgba(37, 96, 145, .15);
+    backdrop-filter: blur(15px) saturate(1.08);
+    -webkit-backdrop-filter: blur(15px) saturate(1.08);
+}
+
+.navigation-bar {
+    border: 1px solid rgba(255, 255, 255, .72);
+    background: rgba(255, 255, 255, .82);
+    box-shadow: 0 8px 26px rgba(37, 96, 145, .14);
+}
+
+@media (max-width: 992px) {
+    .social-parallax__character {
+        right: -16vw;
+        width: min(58vw, 560px);
+        opacity: .9;
+    }
+}
+
+@media (max-width: 640px) {
+    .social-parallax__character {
+        right: -34vw;
+        bottom: -18vh;
+        width: 92vw;
+        opacity: .72;
+    }
+
+    .social-parallax__wash {
+        background: rgba(232, 247, 255, .25);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .social-parallax__campus,
+    .social-parallax__character {
+        transform: none !important;
+    }
 }

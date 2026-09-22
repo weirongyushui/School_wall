@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人页面 - 完整版</title>
-    <link type="text/css" rel="stylesheet" href="/css/Users.css">
+    <link type="text/css" rel="stylesheet" href="/css/Users.css?v=20260922-remove-blue-gap">
+    <link type="text/css" rel="stylesheet" href="/css/global-background.css?v=20260922-campus-wall">
+    <link type="text/css" rel="stylesheet" href="/css/main-navigation.css?v=20260922-unified-nav">
+    <link type="text/css" rel="stylesheet" href="/css/campus-theme.css?v=20260922-blue-pink">
     <script src="/js/userProfile.js"></script>
     <script>
         function logout() {
@@ -31,18 +34,16 @@
 </head>
 <body>
 <!-- 导航栏 -->
-<div class="navigation-bar">
-    <div class="navigation-bar-cell"><a href="/social"><img src="/static/app01/images/首页%20(1).png" alt="">&nbsp;发帖</a></div>
-    <div class="navigation-bar-cell active"><a href="/user"><img src="/static/app01/images/我的.png" alt="">&nbsp;用户</a></div>
-    <div class="navigation-bar-cell"><a href="/social"><img src="/static/app01/images/编辑.png" alt="">&nbsp;动态</a></div>
-    <div class="navigation-bar-cell"><a href="/borrow.html"><img src="/static/app01/images/进入.png" alt="">&nbsp;借阅</a></div>
+<nav class="navigation-bar" aria-label="主导航">
+    <div class="navigation-bar-cell"><a href="/social#publish">发帖</a></div>
+    <div class="navigation-bar-cell active"><a href="/user" aria-current="page">用户</a></div>
+    <div class="navigation-bar-cell"><a href="/social#feed">动态</a></div>
+    <div class="navigation-bar-cell"><a href="/borrow.html">借阅</a></div>
     <div class="navigation-bar-cell"><a target="_blank" href="http://47.94.172.187:8080/">AI</a></div>
     <div class="navigation-bar-cell">
-        <a href="javascript:void(0)" onclick="logout()" style="color: #ff4d4f;">
-            <img src="/static/app01/images/退出.png" alt="" style="opacity: 0.7;">&nbsp;退出登录
-        </a>
+        <a class="logout-link" href="#" onclick="logout(); return false;">退出登录</a>
     </div>
-</div>
+</nav>
 
 <div class="all">
     <!-- 左侧个人信息卡片 -->

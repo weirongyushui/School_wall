@@ -3,46 +3,51 @@ package org.example.web.entity;
 import java.util.Date;
 
 /**
- * 评论实体类
- * 对应 comment 表（TODO: 建表与 Mapper/Service 待实现）
+ * 评论实体，对应 comment 表。
  */
 public class Comment {
 
-    /** 评论 ID */
     private Long id;
-
-    /** 所属帖子 ID */
     private Long postId;
-
-    /** 评论人学号 */
     private Long userId;
-
-    /** 评论人昵称（冗余字段） */
     private String username;
-
-    /** 评论人头像（冗余字段） */
     private String avatar;
-
-    /** 是否匿名：1=匿名，0=实名 */
     private Integer isAnonymous;
-
-    /** 评论内容 */
     private String content;
-
-    /** 状态：1=正常，0=已删除 */
+    private Long parentId;
+    private Long replyToCommentId;
     private Integer status;
-
-    /** 点赞数 */
     private Integer likeCount;
-
-    /** 回复的目标评论 ID（顶级评论为 null） */
-    private Long replyId;
-
-    /** 创建时间 */
+    private Integer replyCount;
     private Date createdAt;
-
-    /** 更新时间 */
     private Date updatedAt;
 
-    // TODO: 添加 getter 和 setter 方法
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Long getPostId() { return postId; }
+    public void setPostId(Long postId) { this.postId = postId; }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getAvatar() { return avatar; }
+    public void setAvatar(String avatar) { this.avatar = avatar; }
+    public Integer getIsAnonymous() { return isAnonymous; }
+    public void setIsAnonymous(Integer isAnonymous) { this.isAnonymous = isAnonymous; }
+    public String getContent() { return content; }
+    public void setContent(String content) { this.content = content; }
+    public Long getParentId() { return parentId; }
+    public void setParentId(Long parentId) { this.parentId = parentId; }
+    public Long getReplyToCommentId() { return replyToCommentId; }
+    public void setReplyToCommentId(Long replyToCommentId) { this.replyToCommentId = replyToCommentId; }
+    public Integer getStatus() { return status; }
+    public void setStatus(Integer status) { this.status = status; }
+    public Integer getLikeCount() { return likeCount; }
+    public void setLikeCount(Integer likeCount) { this.likeCount = likeCount; }
+    public Integer getReplyCount() { return replyCount; }
+    public void setReplyCount(Integer replyCount) { this.replyCount = replyCount; }
+    public Date getCreatedAt() { return createdAt; }
+    public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+    public Date getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(Date updatedAt) { this.updatedAt = updatedAt; }
 }

@@ -169,6 +169,7 @@
             updated_at = NOW()
         WHERE id = #{postId}
           AND status = 1
+          AND comment_count + #{delta} &gt;= 0
     </update>
 
     <!-- 批量查询帖子（用于热搜等） -->

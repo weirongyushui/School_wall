@@ -278,15 +278,6 @@ public class SocialController {
     }
 
     /**
-     * TODO(P1-评论): 建议新增 CommentController/CommentService/CommentMapper，职责不要继续堆在帖子 Controller 中。
-     * - GET    /api/post/{postId}/comments?page=1&size=20：按创建时间分页，匿名评论必须脱敏；
-     * - POST   /api/post/{postId}/comments：Session 取作者，校验内容后新增顶级评论；
-     * - POST   /api/comments/{commentId}/replies：校验父评论属于目标帖子，再写 reply_id；
-     * - DELETE /api/comments/{commentId}：只允许评论作者删除，软删除后将 comment_count 减 1。
-     * 新增/删除评论和 updateCommentCount 必须放在同一事务中；回复展示可返回 replyToUsername。
-     */
-
-    /**
      * TODO(P1-帖子详情): GET /api/post/{id}。
      * 先查询 status=正常 的帖子，再按与列表相同的规则构造安全 DTO；附带 canDelete、liked，
      * 评论通过独立分页接口加载。找不到帖子时返回 404，不要把数据库实体（尤其匿名 userId）直接返回。

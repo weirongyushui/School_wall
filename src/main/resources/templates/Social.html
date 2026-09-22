@@ -4,24 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>动态广场 - 个人管理系统</title>
-    <link type="text/css" rel="stylesheet" href="/css/Social.css">
-    <script src="/js/social.js?v=20260922-like-toggle" defer></script>
+    <link type="text/css" rel="stylesheet" href="/css/Social.css?v=20260922-full-campus-wall">
+    <link type="text/css" rel="stylesheet" href="/css/global-background.css?v=20260922-campus-wall">
+    <link type="text/css" rel="stylesheet" href="/css/main-navigation.css?v=20260922-unified-nav">
+    <link type="text/css" rel="stylesheet" href="/css/campus-theme.css?v=20260922-blue-pink">
+    <script src="/js/social.js?v=20260922-parallax-fix" defer></script>
 </head>
 <body>
 
-<!-- 导航栏 -->
-<div class="navigation-bar">
-    <div class="navigation-bar-cell active"><a href="/social"><img src="/static/app01/images/首页%20(1).png" alt="">&nbsp;发帖</a></div>
-    <div class="navigation-bar-cell"><a href="/user"><img src="/static/app01/images/我的.png" alt="">&nbsp;用户</a></div>
-    <div class="navigation-bar-cell"><a href="/social"><img src="/static/app01/images/编辑.png" alt="">&nbsp;动态</a></div>
-    <div class="navigation-bar-cell"><a href="/borrow.html"><img src="/static/app01/images/进入.png" alt="">&nbsp;借阅</a></div>
-    <div class="navigation-bar-cell"><a target="_blank" href="http://47.94.172.187:8080/">AI</a></div>
-    <div class="navigation-bar-cell">
-        <a href="javascript:void(0)" onclick="logout()" style="color: #ff4d4f;">
-            <img src="/static/app01/images/退出.png" alt="" style="opacity: 0.7;">&nbsp;退出登录
-        </a>
+<!-- 校园场景视差背景（独立图层，不影响发帖与评论交互） -->
+<div class="social-parallax" aria-hidden="true">
+    <div class="social-parallax__campus"></div>
+    <div class="social-parallax__wash"></div>
+    <div class="social-parallax__character">
+        <img src="/images/home/campus-guide-character.png" alt="" draggable="false">
     </div>
 </div>
+
+<!-- 导航栏 -->
+<nav class="navigation-bar" aria-label="主导航">
+    <div class="navigation-bar-cell"><a href="#publish">发帖</a></div>
+    <div class="navigation-bar-cell"><a href="/user">用户</a></div>
+    <div class="navigation-bar-cell active"><a href="#feed" aria-current="page">动态</a></div>
+    <div class="navigation-bar-cell"><a href="/borrow.html">借阅</a></div>
+    <div class="navigation-bar-cell"><a target="_blank" href="http://47.94.172.187:8080/">AI</a></div>
+    <div class="navigation-bar-cell">
+        <a class="logout-link" href="#" onclick="logout(); return false;">退出登录</a>
+    </div>
+</nav>
 
 <!-- 主容器 -->
 <div class="all">
@@ -77,7 +87,7 @@
     <!-- 中间内容区 -->
     <div class="center-section">
         <!-- 发布框 -->
-        <div class="publish-box">
+        <div class="publish-box" id="publish">
             <div class="publish-header">
                 <span class="publish-tip">分享你的想法...</span>
             </div>
@@ -101,7 +111,7 @@
         </div>
 
         <!-- 分类标签 -->
-        <div class="category-tabs">
+        <div class="category-tabs" id="feed">
             <span class="tab-item active" data-category="0">全部</span>
             <span class="tab-item" data-category="1">发发牢骚</span>
             <span class="tab-item" data-category="2">吹吹牛皮</span>
