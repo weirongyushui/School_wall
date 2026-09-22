@@ -20,6 +20,8 @@ import javax.sql.DataSource;
 @Configuration
 public class MyBatisConfig {
 
+    // TODO(P0): 增加 WebMvcConfigurer，注册 ReviewAuthInterceptor 并限定审核接口路径。
+
     /**
      * 创建 SqlSessionFactory
      * @param dataSource Spring 自动注入的数据源

@@ -1,4 +1,5 @@
 // userProfile.js
+// 用户中心页面脚本：加载/渲染个人资料，编辑并保存到后端
 
 
 // 与 application.properties 中 server.port 一致；若用 IDE 内置预览(63342)跨域调后端，Cookie 不会带上，会话会丢
@@ -17,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadUserProfile();
 });
 
+// 带 Cookie 请求 JSON；空响应返回 null，非 JSON 响应抛错
 function requestJson(url, options) {
     return fetch(url, {
         ...options,
@@ -37,6 +39,7 @@ function requestJson(url, options) {
     });
 }
 
+// 日期格式化为 yyyy-MM-dd；无法解析时截取字符串日期部分
 function formatDate(value) {
     if (!value) {
         return '';
@@ -48,6 +51,7 @@ function formatDate(value) {
     return date.toISOString().split('T')[0];
 }
 
+// 加载当前登录用户资料并渲染；未登录 2 秒后跳转登录页
 function loadUserProfile() {
     requestJson(`${API_BASE}/api/user/current`)
         .then(data => {
@@ -69,6 +73,7 @@ function loadUserProfile() {
         });
 }
 
+// 页面中央弹出错误提示，3 秒后自动消失
 function showError(message) {
     const errorDiv = document.createElement('div');
     errorDiv.style.cssText = `
@@ -95,6 +100,7 @@ function showError(message) {
     }, 3000);
 }
 
+// 把用户数据填充到页面各字段（兼容 userId / user_id 两种字段名）
 function renderUserProfile(data) {
     const userNo = data.user_id || data.userId || '';
     currentUserId = data.id || null;
@@ -227,7 +233,7 @@ function showEditForm() {
     });
 }
 
-// 填充编辑表单数据
+// 从页面展示值反填编辑表单
 function populateEditForm() {
     // 从页面获取当前数据并填充到表单
     document.getElementById('edit-nickname').value = document.getElementById('nickname').textContent;
@@ -286,7 +292,7 @@ function populateEditForm() {
     document.getElementById('edit-avatar').value = document.getElementById('avatar').src;
 }
 
-// 保存用户数据
+// 收集表单数据提交 /api/user/update，成功后重新渲染资料
 function saveUserData() {
     const userData = {
         id: currentUserId,

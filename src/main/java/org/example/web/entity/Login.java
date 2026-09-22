@@ -26,6 +26,7 @@ public class Login {
      */
     private Long userId;
 
+    /** 角色（REVIEWER=审核员，ADMIN=管理员；为空视为普通用户） */
     private String role;
     /**
      * 创建时间

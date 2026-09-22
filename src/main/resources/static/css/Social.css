@@ -369,6 +369,11 @@ body {
     color: #007bff;
 }
 
+.footer-btn.like-btn.liked {
+    color: #ff4d4f;
+    font-weight: 600;
+}
+
 /* 右侧栏 */
     width: 250px;
     flex-shrink: 0;

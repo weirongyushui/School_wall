@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.web.mapper.PostLikeMapper">
+
+    <resultMap id="BaseResultMap" type="org.example.web.entity.PostLike">
+        <id column="id" property="id"/>
+        <result column="post_id" property="postId"/>
+        <result column="user_id" property="userId"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+
+    <!-- 查重：数 (post_id, user_id) 匹配的记录条数，返回 0=未点赞，1=已点赞（唯一约束保证不会 >1） -->
+    <select id="countByPostIdAndUserId"
+            resultType="int">
+
+        SELECT COUNT(*)
+        FROM post_like
+        WHERE post_id = #{postId}
+          AND user_id = #{userId}
+
+    </select>
+
+
+    <!-- 新增点赞记录：返回 1=成功；并发重复时数据库唯一约束会报错抛 DuplicateKeyException -->
+    <insert id="insert">
+
+        INSERT INTO post_like (post_id,
+                               user_id)
+        VALUES (#{postId},
+                #{userId})
+
+    </insert>
+
+
+    <!-- 取消点赞：返回 1=删除成功（点过）；0=没记录（没点过） -->
+    <delete id="deleteByPostIdAndUserId">
+
+        DELETE
+        FROM post_like
+        WHERE post_id = #{postId}
+          AND user_id = #{userId}
+
+    </delete>
+
+</mapper>

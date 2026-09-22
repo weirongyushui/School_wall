@@ -1,6 +1,7 @@
 package org.example.web.controller;
 
 import org.example.web.entity.User;
+import org.example.web.service.LoginCheckService;
 import org.example.web.service.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,34 +24,8 @@ public class UserController {
     @Autowired
     private UserProfileService userProfileService;
 
-    /**
-     * 从会话读取的值来自 login.user_id。
-     * 库中外键为 login.user_id → user.user_id（学号），不是 user.id。
-     * 兼容 Integer / Long / Number，避免强制转型 ClassCastException。
-     */
-    private static Long sessionUserRef(HttpSession session) {
-        Object v = session.getAttribute("userId");
-        if (v == null) {
-            return null;
-        }
-        if (v instanceof Long) {
-            return (Long) v;
-        }
-        if (v instanceof Integer) {
-            return ((Integer) v).longValue();
-        }
-        if (v instanceof Number) {
-            return ((Number) v).longValue();
-        }
-        if (v instanceof String) {
-            try {
-                return Long.parseLong(((String) v).trim());
-            } catch (NumberFormatException e) {
-                return null;
-            }
-        }
-        return null;
-    }
+    @Autowired
+    private LoginCheckService loginCheckService;
 
     /**
      * 与 Navicat 外键一致：login.user_id 引用 user.user_id（学号）。
@@ -98,7 +73,7 @@ public class UserController {
     @GetMapping("/api/user/current")
     @ResponseBody
     public User getCurrentUser(HttpSession session) {
-        Long ref = sessionUserRef(session);
+        Long ref = loginCheckService.check(session).userId();
         return resolveUserByLoginRef(ref);
     }
 
@@ -114,7 +89,7 @@ public class UserController {
     @PostMapping("/api/user/update")
     @ResponseBody
     public User updateUser(@RequestBody User user,HttpSession session) {
-        Long sessionRef = sessionUserRef(session);
+        Long sessionRef = loginCheckService.check(session).userId();
         if (sessionRef==null){
             return null;
         }

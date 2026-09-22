@@ -27,6 +27,18 @@ public interface PostService {
     Map<String, Object> getPostList(int page, int size, Integer category);
 
     /**
+     * TODO(P1-帖子详情): 根据 postId 查询一条正常帖子，并组装匿名安全字段、canDelete、liked。
+     * 评论列表建议由 CommentService 分页查询，避免帖子接口一次返回过多回复。
+     */
+    // Map<String, Object> getPostDetail(Long postId, Long currentUserId);
+
+    /**
+     * TODO(P1-我的帖子): 复用列表分页逻辑，在查询参数中加入当前 userId；userId 必须取自 Session，
+     * 不能接收前端任意传入的学号，否则会变成查询他人匿名帖的入口。
+     */
+    // Map<String, Object> getMyPosts(Long currentUserId, int page, int size);
+
+    /**
      * TODO: 点赞帖子
      * @param userId 用户 ID
      * @param postId 帖子 ID
@@ -57,4 +69,9 @@ public interface PostService {
      * @return 错误消息，null 表示成功
      */
     // String updatePost(Long userId, Long postId, String content);
+
+    /**
+     * TODO(P1-多图发布): 图片上传与发帖分两步：上传接口只返回受控的文件标识/URL，createPost 再保存图片列表。
+     * Service 需要限制图片数量，并只接受本站上传成功的标识，不能直接信任任意外链。
+     */
 }

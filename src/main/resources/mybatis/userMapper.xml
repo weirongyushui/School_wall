@@ -21,16 +21,20 @@
         <result column="created_at" property="createdAt" />
         <result column="updated_at" property="updatedAt" />
     </resultMap>
+    <!-- 按主键 id 查询用户 -->
     <select id="getById" parameterType="long" resultMap="BaseResultMap">
         select * from user where id = #{id}
     </select>
+    <!-- 按学号（user.user_id）查询用户 -->
     <select id="getByUserId" parameterType="string" resultMap="BaseResultMap">
         select * from user where user_id = #{userId}
     </select>
+    <!-- 按主键 id 查询（兼容历史方法名） -->
     <select id="getByuserId" parameterType="int" resultMap="BaseResultMap">
         select * from user where id = #{id}
     </select>
 
+    <!-- 新增用户，回填自增 id -->
     <insert id="insert" parameterType="org.example.web.entity.User" useGeneratedKeys="true" keyProperty="id" >
         INSERT INTO user (
             user_id, nickname, avatar, gender, major, grade,
@@ -42,6 +46,7 @@
                      #{birthday}, #{createdAt}, #{updatedAt}
                  )
     </insert>
+    <!-- 动态更新用户字段（含 user_id），自动刷新 updated_at -->
     <update id="update" parameterType="org.example.web.entity.User">
         UPDATE user
         <set>
@@ -63,6 +68,7 @@
         WHERE id = #{id}
     </update>
 
+    <!-- 按主键物理删除用户 -->
     <delete id="deleteById">
         delete from user where id=#{id}
     </delete>

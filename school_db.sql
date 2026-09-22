@@ -17,6 +17,8 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
+-- TODO(P0): 与代码同步数据库结构：补充 login.role、comment、举报/审核相关表及必要索引。
+
 -- ----------------------------
 -- Table structure for login
 -- ----------------------------

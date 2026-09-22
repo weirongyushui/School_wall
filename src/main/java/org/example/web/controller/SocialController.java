@@ -1,6 +1,9 @@
 package org.example.web.controller;
 
 import org.example.web.entity.Post;
+import org.example.web.dto.LoginCheckResult;
+import org.example.web.service.LoginCheckService;
+import org.example.web.service.PostLikeService;
 import org.example.web.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,36 +40,11 @@ public class SocialController {
     @Autowired
     private PostService postService;
 
-    /**
-     * 从 Session 读取当前登录用户 ID（login.user_id，即学号）。
-     * 兼容 Long / Integer / Number / String 多种类型，避免 ClassCastException。
-     *
-     * @param session 当前会话
-     * @return 学号 Long；未登录或类型异常时返回 null
-     */
-    private static Long sessionUserRef(HttpSession session) {
-        Object v = session.getAttribute("userId");
-        if (v == null) {
-            return null;
-        }
-        if (v instanceof Long) {
-            return (Long) v;
-        }
-        if (v instanceof Integer) {
-            return ((Integer) v).longValue();
-        }
-        if (v instanceof Number) {
-            return ((Number) v).longValue();
-        }
-        if (v instanceof String) {
-            try {
-                return Long.parseLong(((String) v).trim());
-            } catch (NumberFormatException e) {
-                return null;
-            }
-        }
-        return null;
-    }
+    @Autowired
+    private PostLikeService postLikeService;
+
+    @Autowired
+    private LoginCheckService loginCheckService;
 
     /**
      * 访问 /social 页面
@@ -90,7 +68,7 @@ public class SocialController {
     public Map<String, Object> createPost(@RequestBody Map<String, String> request,
                                           HttpSession session) {
         // 取登录用户 ID（学号），未登录时为 null，由 Service 返回"请先登录"
-        Long userId = sessionUserRef(session);
+        Long userId = loginCheckService.check(session).userId();
 
         String content = request.get("content");
         String categoryStr = request.get("category");
@@ -148,7 +126,7 @@ public class SocialController {
         Map<String, Object> serviceResult = postService.getPostList(page, size, category);
         List<Post> list = (List<Post>) serviceResult.get("list");
         int total = (int) serviceResult.get("total");
-        Long currentUserId = sessionUserRef(session);
+        Long currentUserId = loginCheckService.check(session).userId();
         List<Map<String, Object>> safeList = new ArrayList<>();
         if (list != null) {
             for (Post post : list) {
@@ -170,6 +148,9 @@ public class SocialController {
                 item.put("likeCount", post.getLikeCount());
                 item.put("commentCount", post.getCommentCount());
                 item.put("createdAt", post.getCreatedAt());
+                item.put("liked",
+                        currentUserId != null
+                                && postLikeService.hasLiked(currentUserId, post.getId()));
 
                 boolean canDelete =
                         currentUserId != null
@@ -183,20 +164,152 @@ public class SocialController {
 
         // 统一对外返回 data/total 字段，list 为空时返回空数组而非 null
         Map<String, Object> response = new HashMap<>();
-        response.put("data", list != null ? list : new ArrayList<>());
+        response.put("data", safeList);
         response.put("total", total);
         return response;
     }
 
     /**
-     * TODO: 点赞功能 - 前端已调用 /api/post/{id}/like
-     * 当前未实现，前端调用会返回 404。
+     * 点赞帖子。
      */
-    // @PostMapping("/api/post/{id}/like")
-    // @ResponseBody
-    // public Map<String, Object> likePost(@PathVariable Long id, HttpSession session) {
-    //     // 待实现：验证登录、更新点赞数、返回结果
-    // }
+    @PostMapping("/api/post/{id}/like")
+    @ResponseBody
+    public Map<String, Object> likePost(@PathVariable Long id, HttpSession session) {
+        LoginCheckResult login = loginCheckService.check(session);
+        if (!login.loggedIn()) {
+            return Map.of(
+                    "success", false,
+                    "liked", false,
+                    "message", login.message()
+            );
+        }
+        Long userId = login.userId();
+
+        try {
+            boolean changed = postLikeService.like(userId, id);
+            boolean liked = postLikeService.hasLiked(userId, id);
+            int likeCount = postLikeService.getLikeCount(id);
+
+            return Map.of(
+                    "success", true,
+                    "liked", liked,
+                    "changed", changed,
+                    "likeCount", likeCount,
+                    "message", changed ? "点赞成功" : "已经点过赞"
+            );
+        } catch (IllegalArgumentException e) {
+            return Map.of(
+                    "success", false,
+                    "liked", false,
+                    "message", e.getMessage()
+            );
+        } catch (RuntimeException e) {
+            return Map.of(
+                    "success", false,
+                    "liked", false,
+                    "message", "点赞失败，请稍后重试"
+            );
+        }
+    }
+
+    /**
+     * 取消点赞。
+     */
+    @DeleteMapping("/api/post/{id}/like")
+    @ResponseBody
+    public Map<String, Object> unlikePost(@PathVariable Long id, HttpSession session) {
+        LoginCheckResult login = loginCheckService.check(session);
+        if (!login.loggedIn()) {
+            return Map.of(
+                    "success", false,
+                    "liked", false,
+                    "message", login.message()
+            );
+        }
+        Long userId = login.userId();
+
+        try {
+            boolean changed = postLikeService.unlike(userId, id);
+            boolean liked = postLikeService.hasLiked(userId, id);
+            int likeCount = postLikeService.getLikeCount(id);
+
+            return Map.of(
+                    "success", true,
+                    "liked", liked,
+                    "changed", changed,
+                    "likeCount", likeCount,
+                    "message", changed ? "取消点赞成功" : "尚未点赞"
+            );
+        } catch (IllegalArgumentException e) {
+            return Map.of(
+                    "success", false,
+                    "liked", false,
+                    "message", e.getMessage()
+            );
+        } catch (RuntimeException e) {
+            return Map.of(
+                    "success", false,
+                    "liked", false,
+                    "message", "取消点赞失败，请稍后重试"
+            );
+        }
+    }
+
+    /**
+     * 查询当前用户是否已点赞指定帖子。
+     */
+    @GetMapping("/api/post/{id}/like/status")
+    @ResponseBody
+    public Map<String, Object> getPostLikeStatus(@PathVariable Long id, HttpSession session) {
+        Long userId = loginCheckService.check(session).userId();
+        try {
+            return Map.of(
+                    "success", true,
+                    "liked", postLikeService.hasLiked(userId, id),
+                    "likeCount", postLikeService.getLikeCount(id)
+            );
+        } catch (IllegalArgumentException e) {
+            return Map.of(
+                    "success", false,
+                    "liked", false,
+                    "message", e.getMessage()
+            );
+        }
+    }
+
+    /**
+     * TODO(P1-评论): 建议新增 CommentController/CommentService/CommentMapper，职责不要继续堆在帖子 Controller 中。
+     * - GET    /api/post/{postId}/comments?page=1&size=20：按创建时间分页，匿名评论必须脱敏；
+     * - POST   /api/post/{postId}/comments：Session 取作者，校验内容后新增顶级评论；
+     * - POST   /api/comments/{commentId}/replies：校验父评论属于目标帖子，再写 reply_id；
+     * - DELETE /api/comments/{commentId}：只允许评论作者删除，软删除后将 comment_count 减 1。
+     * 新增/删除评论和 updateCommentCount 必须放在同一事务中；回复展示可返回 replyToUsername。
+     */
+
+    /**
+     * TODO(P1-帖子详情): GET /api/post/{id}。
+     * 先查询 status=正常 的帖子，再按与列表相同的规则构造安全 DTO；附带 canDelete、liked，
+     * 评论通过独立分页接口加载。找不到帖子时返回 404，不要把数据库实体（尤其匿名 userId）直接返回。
+     */
+
+    /**
+     * TODO(P1-我的帖子): GET /api/post/mine?page=1&size=20。
+     * userId 只能从 Session 获取，Service 的分页查询增加 userId 条件；返回列表仍使用统一安全 DTO，
+     * 个人中心只负责调用接口和渲染，避免复制一套帖子权限判断。
+     */
+
+    /**
+     * TODO(P1-图片上传): POST /api/post/images，使用 MultipartFile 接收，可支持多文件。
+     * 逐个校验文件非空、真实 MIME/扩展名、单张大小和总数量；生成随机文件名存到固定目录，
+     * 仅返回可访问 URL。若批量中途失败，要清理本次已保存文件；发帖时再保存这些 URL。
+     */
+
+    /**
+     * TODO(P1-举报审核): 建议独立 ReportController/Service/Mapper，并建立 report 与 review_record 表。
+     * 举报接口记录 target_type、target_id、reason、reporter_id，并限制同一用户重复举报；
+     * 待审核/通过/屏蔽接口必须经过 ReviewAuthInterceptor。审核时在同一事务中更新举报状态、
+     * 目标内容状态和审核记录，保留 reviewer_id、处理意见、处理时间，便于追溯。
+     */
 
     /**
      * TODO: 获取热门帖子 - 前端已调用 /api/post/hot
@@ -219,7 +332,7 @@ public class SocialController {
     @DeleteMapping("/api/post/{id}")
     @ResponseBody
     public Map<String, Object> deletePost(@PathVariable Long id, HttpSession session) {
-        Long userId = sessionUserRef(session);
+        Long userId = loginCheckService.check(session).userId();
         // Service 会校验登录、查帖、比对作者，并软删（status=0）
         String error = postService.deletePost(userId, id);
 

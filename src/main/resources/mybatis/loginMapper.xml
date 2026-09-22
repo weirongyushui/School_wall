@@ -13,18 +13,22 @@
         <result column="updated_at" property="updatedAt" />
     </resultMap>
 
+    <!-- 按主键查询账号 -->
     <select id="getById" parameterType="long" resultMap="BaseResultMap">
         select * from login where id = #{id}
     </select>
 
+    <!-- 按用户名查询（登录用） -->
     <select id="getByUsername" parameterType="string" resultMap="BaseResultMap">
         select * from login where username = #{username}
     </select>
 
+    <!-- 按学号查询（学号登录用） -->
     <select id="getByUserId" parameterType="long" resultMap="BaseResultMap">
         select * from login where user_id = #{userId}
     </select>
 
+    <!-- 新增账号，回填自增 id -->
     <insert id="insert" parameterType="org.example.web.entity.Login" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO login (
             username, password, user_id, created_at, updated_at
@@ -33,6 +37,7 @@
         )
     </insert>
 
+    <!-- 动态更新账号字段，自动刷新 updated_at -->
     <update id="update" parameterType="org.example.web.entity.Login">
         UPDATE login
         <set>
@@ -44,6 +49,7 @@
         WHERE id = #{id}
     </update>
 
+    <!-- 按主键物理删除账号 -->
     <delete id="deleteById" parameterType="long">
         delete from login where id = #{id}
     </delete>

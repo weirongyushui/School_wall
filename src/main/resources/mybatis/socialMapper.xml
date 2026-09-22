@@ -133,6 +133,7 @@
         WHERE id = #{id}
     </update>
 
+    <!-- TODO(P0): 统一帖子状态枚举；当前待审核列表(status=2)、数量(status=3)和屏蔽(status=2)相互冲突。 -->
     <!-- 查询待审核帖子列表 -->
     <select id="getPendingList" parameterType="java.util.Map" resultMap="BaseResultMap">
         SELECT

@@ -1,10 +1,10 @@
 // ========== 全局状态 ==========
-var currentPage = 1;
-var currentCategory = 0;
-var pageSize = 30;
-var hasMore = true;
-var loading = false;
-var currentUserId = null;
+var currentPage = 1;        // 当前页码
+var currentCategory = 0;    // 当前分类（0=全部）
+var pageSize = 30;          // 每页条数
+var hasMore = true;         // 是否还有更多数据
+var loading = false;        // 加载中标记，防止重复请求
+var currentUserId = null;   // 当前登录用户学号
 
 // ========== 初始化 ==========
 document.addEventListener('DOMContentLoaded', function() {
@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
     loadHotPosts();
 });
 
-// ========== 用户信息（已有） ==========
+// ========== 用户信息 ==========
+// 加载当前登录用户资料并渲染左侧卡片；未登录时显示提示
 function loadUserProfile() {
     fetch('/api/user/current', { credentials: 'include' })
         .then(function(res) { 
@@ -61,6 +62,7 @@ function loadUserProfile() {
 }
 
 // ========== 分类标签 ==========
+// 点击分类标签切换后重置分页并重新加载列表
 function initTabs() {
     var tabs = document.querySelectorAll('.tab-item');
     tabs.forEach(function(tab) {
@@ -77,6 +79,7 @@ function initTabs() {
 }
 
 // ========== 字数统计 ==========
+// 输入框实时显示已输入字数
 function initCharCount() {
     var textarea = document.getElementById('publishContent');
     var counter = document.getElementById('charCount');
@@ -88,7 +91,10 @@ function initCharCount() {
 }
 
 // ========== 发帖 ==========
+// 校验正文和分类后调用 /api/post/create，成功后刷新列表
 function publish() {
+    // TODO(P1-多图发布): 先收集文件并用 FormData 调上传接口；全部上传成功后，将返回的 URL 数组
+    // 连同正文一起提交 create。上传期间禁用发布按钮，失败时保留正文并提示具体文件错误。
     var content = document.getElementById('publishContent').value.trim();
     if (!content) {
         alert('请输入内容');
@@ -139,6 +145,7 @@ function publish() {
     });
 }
 
+// 发布按钮加载态（防连点）
 function setPublishLoading(loading) {
     var btn = document.getElementById('publishBtn');
     if (btn) {
@@ -149,6 +156,7 @@ function setPublishLoading(loading) {
 }
 
 // ========== 加载帖子列表 ==========
+// 分页加载帖子（可带分类筛选），追加到动态流容器
 function loadFeed(category) {
     if (loading) return;
     loading = true;
@@ -199,12 +207,14 @@ function loadFeed(category) {
         });
 }
 
+// 加载下一页
 function loadMore() {
     if (!hasMore || loading) return;
     currentPage++;
     loadFeed(currentCategory);
 }
 
+// 重置分页并刷新列表
 function refreshFeed() {
     currentPage = 1;
     loading = false;
@@ -213,6 +223,7 @@ function refreshFeed() {
 }
 
 // ========== 构建帖子卡片 ==========
+// 由帖子数据拼装卡片 DOM（匿名帖隐藏真实昵称，正文做 XSS 转义）
 function buildPostCard(post) {
     var card = document.createElement('div');
     card.className = 'feed-card';
@@ -228,11 +239,11 @@ function buildPostCard(post) {
     // 时间格式化
     var timeStr = post.createdAt ? formatTime(post.createdAt) : '';
 
-    // 判断是否自己的帖子
-    var isAuthor = currentUserId && post.userId && String(currentUserId) === String(post.userId);
-    var deleteButtonHtml = isAuthor ?
+    // 删除权限和点赞状态都以后端计算结果为准。
+    var deleteButtonHtml = post.canDelete ?
         '<button class="footer-btn delete-btn" onclick="deletePost(' + post.id + ', this)">删除</button>' :
         '';
+    var liked = post.liked === true;
 
     card.innerHTML = 
         '<div class="feed-header">' +
@@ -251,13 +262,14 @@ function buildPostCard(post) {
         '<div class="feed-footer">' +
             '<button class="footer-btn" onclick="sharePost(' + post.id + ')">转发 ' + (post.shareCount || 0) + '</button>' +
             '<button class="footer-btn" onclick="commentPost(' + post.id + ')">评论 ' + (post.commentCount || 0) + '</button>' +
-            '<button class="footer-btn" onclick="likePost(' + post.id + ', this)">点赞 ' + (post.likeCount || 0) + '</button>' +
+            '<button class="footer-btn like-btn' + (liked ? ' liked' : '') + '" data-liked="' + liked + '" aria-pressed="' + liked + '" onclick="likePost(' + post.id + ', this)">点赞 ' + (post.likeCount || 0) + '</button>' +
             deleteButtonHtml +
         '</div>';
 
     return card;
 }
 
+// 渲染帖子配图（images 为逗号分隔的 URL）
 function renderImages(images) {
     if (!images) return '';
     var urls = images.split(',');
@@ -270,42 +282,70 @@ function renderImages(images) {
 }
 
 // ========== 点赞 ==========
+// 未点赞时 POST，已点赞时 DELETE；计数始终采用服务端返回值。
 function likePost(postId, btn) {
+    if (btn.disabled) return;
+
+    var currentlyLiked = btn.dataset.liked === 'true';
+    var currentCount = parseInt(btn.textContent.match(/\d+/)?.[0] || '0', 10);
+    btn.disabled = true;
+
     fetch('/api/post/' + postId + '/like', {
-        method: 'POST',
+        method: currentlyLiked ? 'DELETE' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include'
     })
-    .then(function(res) { return res.json(); })
+    .then(function(res) {
+        if (!res.ok) { throw new Error('HTTP ' + res.status); }
+        return res.json();
+    })
     .then(function(data) {
         if (data.success) {
-            var text = btn.textContent;
-            var match = text.match(/\d+/);
-            var count = match ? parseInt(match[0]) : 0;
-            btn.textContent = '点赞 ' + (count + 1);
-            btn.style.color = '#ff6b6b';
+            // 新接口直接返回最终状态；兼容旧接口时按本次操作推导，
+            // 避免缺少 liked 字段被误判为“始终未点赞”，导致连续发送 POST。
+            var liked = typeof data.liked === 'boolean' ? data.liked : !currentlyLiked;
+            var fallbackCount = Math.max(0, currentCount + (liked ? 1 : -1));
+            var count = Number.isFinite(Number(data.likeCount))
+                ? Number(data.likeCount)
+                : fallbackCount;
+            btn.dataset.liked = String(liked);
+            btn.setAttribute('aria-pressed', String(liked));
+            btn.classList.toggle('liked', liked);
+            btn.textContent = '点赞 ' + count;
         } else {
             alert(data.message || '点赞失败');
         }
     })
     .catch(function(err) {
         console.error('点赞错误:', err);
+        alert('操作失败，请稍后重试');
+    })
+    .finally(function() {
+        btn.disabled = false;
     });
 }
 
+// 转发帖子（待实现）
 function sharePost(postId) {
+    // TODO(P2): 先实现复制帖子详情链接；需要站内转发时再增加转发数据模型。
     alert('转发功能待实现');
 }
 
+// 评论帖子（待实现）
 function commentPost(postId) {
+    // TODO(P1-评论交互): 打开评论抽屉/详情页后分页加载评论；提交成功后插入服务端返回的评论，
+    // 同步更新帖子卡片评论数。回复时携带父评论 id；仅当 comment.canDelete=true 时显示删除按钮。
+    // 所有昵称、正文都用 textContent 创建节点，避免把用户内容拼进 innerHTML。
     alert('评论功能待实现');
 }
 
+// 新窗口查看原图
 function viewImage(url) {
     window.open(url, '_blank');
 }
 
 // ========== 删除帖子 ==========
+// 确认后调用 DELETE 接口软删自己的帖子，成功后淡出移除卡片
 function deletePost(postId, btn) {
     if (!confirm('确定要删除这条帖子吗？删除后无法恢复。')) {
         return;
@@ -340,6 +380,7 @@ function deletePost(postId, btn) {
 }
 
 // ========== 点赞榜 ==========
+// 加载热门帖子（按点赞数），渲染右侧榜单
 function loadHotPosts() {
     fetch('/api/post/hot', { credentials: 'include' })
         .then(function(res) { return res.json(); })
@@ -370,12 +411,14 @@ function loadHotPosts() {
 }
 
 // ========== 工具函数 ==========
+// HTML 转义，防止 XSS
 function escapeHtml(str) {
     var div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
 }
 
+// 时间格式化：1 小时内显示相对时间，超过 7 天显示完整日期
 function formatTime(dateStr) {
     if (!dateStr) return '';
     var d = new Date(dateStr);

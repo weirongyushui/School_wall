@@ -3,6 +3,10 @@ package org.example.web.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * MD5 工具类
+ * 用于登录密码的加密与校验（配合 LoginService 使用）。
+ */
 public class MD5Util {
     
     /**

@@ -4,44 +4,44 @@ import java.util.Date;
 
 /**
  * 评论实体类
- * TODO: 完善字段定义
+ * 对应 comment 表（TODO: 建表与 Mapper/Service 待实现）
  */
 public class Comment {
 
-    /** TODO: 评论 ID */
+    /** 评论 ID */
     private Long id;
 
-    /** TODO: 帖子 ID */
+    /** 所属帖子 ID */
     private Long postId;
 
-    /** TODO: 用户 ID */
+    /** 评论人学号 */
     private Long userId;
 
-    /** TODO: 用户名 */
+    /** 评论人昵称（冗余字段） */
     private String username;
 
-    /** TODO: 头像 */
+    /** 评论人头像（冗余字段） */
     private String avatar;
 
-    /** TODO: 是否匿名 */
+    /** 是否匿名：1=匿名，0=实名 */
     private Integer isAnonymous;
 
-    /** TODO: 评论内容 */
+    /** 评论内容 */
     private String content;
 
-    /** TODO: 状态（1=正常，0=已删除） */
+    /** 状态：1=正常，0=已删除 */
     private Integer status;
 
-    /** TODO: 点赞数 */
+    /** 点赞数 */
     private Integer likeCount;
 
-    /** TODO: 回复的评论 ID（回复功能） */
+    /** 回复的目标评论 ID（顶级评论为 null） */
     private Long replyId;
 
-    /** TODO: 创建时间 */
+    /** 创建时间 */
     private Date createdAt;
 
-    /** TODO: 更新时间 */
+    /** 更新时间 */
     private Date updatedAt;
 
     // TODO: 添加 getter 和 setter 方法
