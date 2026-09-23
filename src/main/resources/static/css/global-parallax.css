@@ -1,0 +1,91 @@
+/* 登录、注册、用户页共用的背景视差图层。 */
+:root {
+    --global-bg-x: 0px;
+    --global-bg-y: 0px;
+    --global-character-x: 0px;
+    --global-character-y: 0px;
+}
+
+.global-parallax {
+    position: fixed;
+    z-index: 0;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.global-parallax__background,
+.global-parallax__wash,
+.global-parallax__character {
+    position: absolute;
+}
+
+.global-parallax__background {
+    inset: -26px;
+    background: url("/images/home/campus-wall-full-bg.png") center / cover no-repeat;
+    transform: translate3d(var(--global-bg-x), var(--global-bg-y), 0) scale(1.04);
+    will-change: transform;
+}
+
+.global-parallax__wash {
+    inset: 0;
+    background: linear-gradient(135deg, rgba(225, 246, 255, .08), rgba(255, 231, 243, .12));
+}
+
+.global-parallax__character {
+    right: -7vw;
+    bottom: -22vh;
+    width: min(42vw, 650px);
+    height: min(92vh, 900px);
+    transform: translate3d(var(--global-character-x), var(--global-character-y), 0);
+    will-change: transform;
+}
+
+.global-parallax__character img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
+    opacity: 1;
+    filter: drop-shadow(-12px 16px 24px rgba(24, 76, 117, .2));
+    user-select: none;
+}
+
+/* 页面内容始终位于视差背景上方。 */
+.global-parallax ~ .navigation-bar,
+.global-parallax ~ .login-container,
+.global-parallax ~ .register-container,
+.global-parallax ~ .all {
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 992px) {
+    .global-parallax__character {
+        right: -17vw;
+        width: min(60vw, 560px);
+    }
+}
+
+@media (max-width: 640px) {
+    .global-parallax__background {
+        background-position: 56% center;
+    }
+
+    .global-parallax__character {
+        right: -38vw;
+        bottom: -18vh;
+        width: 96vw;
+        opacity: .92;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .global-parallax__background,
+    .global-parallax__character {
+        transform: none !important;
+    }
+}
