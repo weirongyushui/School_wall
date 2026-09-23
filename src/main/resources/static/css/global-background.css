@@ -1,0 +1,23 @@
+/* 全站默认校园墙背景：固定铺满视口，页面滚动时不留白。 */
+html {
+    min-height: 100%;
+    background-color: #62baf4;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: #62baf4 !important;
+    background-image: url("/images/home/campus-wall-full-bg.png") !important;
+    background-position: center center !important;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+}
+
+@media (max-width: 640px) {
+    body {
+        /* 小屏优先保留画面中央的校园与阶梯。 */
+        background-position: 56% center !important;
+    }
+}

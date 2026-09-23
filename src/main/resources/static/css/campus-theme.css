@@ -1,0 +1,197 @@
+/* 全站校园主题：天空蓝 + 樱花粉 */
+:root {
+    --campus-blue: #45a8eb;
+    --campus-blue-dark: #2377b9;
+    --campus-blue-soft: #e6f5ff;
+    --campus-pink: #ef8dba;
+    --campus-pink-dark: #d9689c;
+    --campus-pink-soft: #fff0f7;
+    --campus-ink: #274d69;
+    --campus-gradient: linear-gradient(135deg, var(--campus-blue) 0%, #73b7ed 48%, var(--campus-pink) 100%);
+    --campus-gradient-soft: linear-gradient(135deg, rgba(69, 168, 235, .16), rgba(239, 141, 186, .17));
+
+    /* 覆盖登录、注册页原有主题变量。 */
+    --primary: var(--campus-blue);
+    --primary-dark: var(--campus-blue-dark);
+    --primary-light: var(--campus-blue-soft);
+    --accent: var(--campus-pink);
+    --text-primary: #294b64;
+    --text-secondary: #58778e;
+    --border: #d4e9f6;
+    --border-light: rgba(255, 255, 255, .68);
+    --shadow-focus: 0 0 0 3px rgba(69, 168, 235, .16);
+}
+
+::selection {
+    color: #23465f;
+    background: rgba(239, 141, 186, .34);
+}
+
+/* 公共导航 */
+.navigation-bar {
+    border-color: rgba(255, 255, 255, .78);
+    background: rgba(247, 252, 255, .86);
+    box-shadow: 0 8px 28px rgba(44, 123, 181, .17);
+}
+
+.navigation-bar-cell:hover {
+    background: rgba(69, 168, 235, .12);
+}
+
+.navigation-bar-cell.active,
+.navigation-bar-cell.active a {
+    background: var(--campus-gradient-soft);
+    color: var(--campus-blue-dark);
+}
+
+/* 登录与注册 */
+.login-card,
+.register-card {
+    border-color: rgba(255, 255, 255, .75);
+    border-top-color: var(--campus-pink);
+    background: rgba(255, 255, 255, .91);
+    box-shadow: 0 14px 38px rgba(36, 114, 173, .17);
+    backdrop-filter: blur(16px) saturate(1.06);
+    -webkit-backdrop-filter: blur(16px) saturate(1.06);
+}
+
+.login-btn,
+.register-btn,
+.edit-btn,
+.publish-btn,
+.comment-submit,
+.reply-compose button,
+.return-btn {
+    border: 0;
+    color: #fff;
+    background: var(--campus-gradient);
+    box-shadow: 0 7px 18px rgba(54, 142, 207, .24);
+}
+
+.login-btn:hover,
+.register-btn:hover,
+.edit-btn:hover,
+.publish-btn:hover,
+.comment-submit:hover,
+.reply-compose button:hover,
+.return-btn:hover {
+    color: #fff;
+    background: linear-gradient(135deg, #3298df 0%, #68afe7 48%, #e97ead 100%);
+    box-shadow: 0 9px 22px rgba(217, 104, 156, .24);
+}
+
+.form-group:focus-within label,
+.forgot-link,
+.register-link {
+    color: var(--campus-blue-dark);
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group input[type="date"]:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--campus-blue);
+    box-shadow: var(--shadow-focus);
+}
+
+.remember-me input[type="checkbox"]:checked,
+.anonymous-label input[type="checkbox"],
+.comment-anonymous {
+    accent-color: var(--campus-pink);
+}
+
+/* 用户资料与动态卡片 */
+.user-card,
+.publish-box,
+.feed-card,
+.hot-box,
+.borrow-card {
+    border: 1px solid rgba(255, 255, 255, .72);
+    box-shadow: 0 12px 34px rgba(39, 111, 166, .15);
+}
+
+.user-card > .card-header,
+.hot-header {
+    background: var(--campus-gradient);
+}
+
+.section-title {
+    color: var(--campus-ink);
+    border-bottom-color: var(--campus-pink);
+}
+
+.card-title {
+    background: linear-gradient(90deg, rgba(230, 245, 255, .78), rgba(255, 240, 247, .72));
+    border-bottom-color: #d9ebf6;
+}
+
+.borrow-item,
+.social-item,
+.system-info {
+    background: rgba(237, 248, 255, .76);
+}
+
+.borrow-item:hover,
+.social-item:hover {
+    background: rgba(255, 238, 247, .82);
+}
+
+.return-card {
+    border-left-color: var(--campus-pink);
+}
+
+.author-avatar-placeholder,
+.avatar-placeholder,
+.comment-current-avatar,
+.comment-avatar,
+.hot-rank {
+    background: var(--campus-gradient);
+}
+
+.tab-item.active {
+    color: var(--campus-blue-dark);
+    background: var(--campus-gradient-soft);
+    box-shadow: inset 0 0 0 1px rgba(69, 168, 235, .1);
+}
+
+.tab-item:hover,
+.refresh-btn,
+.footer-btn:hover,
+.comment-sort-tabs button.active,
+.comment-actions button,
+.load-replies-btn {
+    color: var(--campus-blue-dark);
+}
+
+.refresh-btn:hover,
+.footer-btn:hover {
+    background: rgba(69, 168, 235, .12);
+}
+
+.publish-textarea:focus,
+.publish-select:focus,
+.comment-input:focus,
+.reply-compose textarea:focus {
+    border-color: var(--campus-blue);
+    box-shadow: 0 0 0 3px rgba(69, 168, 235, .12);
+}
+
+.comment-panel {
+    border-color: rgba(69, 168, 235, .18);
+    background: rgba(246, 251, 255, .92);
+}
+
+.comment-replies {
+    border-left-color: rgba(239, 141, 186, .3);
+}
+
+.rank-1 { background: linear-gradient(135deg, #f39bc2, #df6ea3) !important; }
+.rank-2 { background: linear-gradient(135deg, #61b4ed, #368fd1) !important; }
+.rank-3 { background: linear-gradient(135deg, #a9b9f1, #d699d2) !important; }
+
+.borrow-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--campus-blue), var(--campus-pink));
+}
